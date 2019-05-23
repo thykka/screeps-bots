@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 const ROLES = {
   harvest: require('role.harvest'),
+  build: require('role.build')
 };
 
 const cleanMemory = require('util.clean-memory');
