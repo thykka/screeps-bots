@@ -4,7 +4,11 @@ const ROLES = [
   require('role.harvest')
 ];
 
+const cleanMemory = require('util.clean-memory');
+
 module.exports.loop = function () {
+  cleanMemory.run();
+
   if(
     _.keys(Game.creeps).length === 0 &&
     _.has(Game.spawns, 'Spawn1') &&
