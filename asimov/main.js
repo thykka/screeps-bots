@@ -20,8 +20,10 @@ module.exports.loop = function () {
     Game.spawns['Spawn1'].spawnCreep(
       [WORK, MOVE, CARRY],
       'Harvest1', {
-        role: 'harvest',
-        working: false,
+        memory: {
+          role: 'harvest',
+          working: false,
+        }
       }
     );
   }
