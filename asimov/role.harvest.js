@@ -5,7 +5,7 @@ const RoleHarvest = {
       creep.memory.working &&
       creep.carry.energy === 0
     ) {
-      creep.memroy.working = false;
+      creep.memory.working = false;
     }
     else if( // harvesting energy, but full
       !creep.memory.working &&
