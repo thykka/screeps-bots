@@ -1,7 +1,5 @@
 const _ = require('lodash');
 
-require('overrides.create-creep');
-
 const ROLES = [
   require('role.harvest')
 ];
