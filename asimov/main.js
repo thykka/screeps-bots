@@ -2,6 +2,10 @@ const _ = require('lodash');
 
 require('overrides.create-creep');
 
+const ROLES = [
+  require('role.harvest')
+];
+
 module.exports.loop = function () {
   if(
     _.keys(Game.creeps).length === 0 &&
@@ -16,4 +20,10 @@ module.exports.loop = function () {
       }
     );
   }
+  _.forEach(Game.creeps, (creep) => {
+    const creepRole = ROLES[creep.memory.role];
+    if(creepRole && typeof creepRole['run'] === 'function') {
+      creepRole.run(creep);
+    }
+  });
 };
