@@ -15,7 +15,7 @@ const RoleHarvest = {
     }
 
     if(creep.memory.working) {
-      const structure = creep.pos.findClosestByPath(
+      let structure = creep.pos.findClosestByPath(
         FIND_MY_STRUCTURES,
         {
           filter: (structure) => (
