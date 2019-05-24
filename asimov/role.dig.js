@@ -20,7 +20,7 @@ const RoleDig = {
       */
     const flag = Object.values(Game.flags)[0];
     console.log('flag: ' + JSON.stringify(flag ? flag.pos : flag));
-    target = flag ? flag.pos.lookFor(LOOK_STRUCTURES)[0] : false;
+    target = flag ? flag.pos.lookFor(LOOK_TERRAIN)[0] : false;
     console.log('target: ' + JSON.stringify(target));
     if(target) {
       const result = creep.dismantle(target) ;
