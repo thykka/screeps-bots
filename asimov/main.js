@@ -55,7 +55,11 @@ function spawnIdealRoleCreeps(spawner, roles = ROLES) {
 function runCreepsWithRoles(creeps, roles = ROLES) {
   _.forEach(creeps, (creep) => {
     const role = roles[creep.memory.role];
-    if(role && typeof role.run === 'function') role.run(creep);
+    try {
+      if(role && typeof role.run === 'function') role.run(creep);
+    } catch(e) {
+      console.log(e);
+    }
   });
 }
 
