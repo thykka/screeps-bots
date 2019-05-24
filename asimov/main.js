@@ -33,16 +33,18 @@ function spawnIdealRoleCreeps(roles = ROLES) {
     spawner.energy >= 300 &&
     !spawner.spawning
   ) {
-    console.log('can spawn');
     const totals = countCreeps();
+    console.log('can spawn, found ' + JSON.stringify(totals));
     for(const role in ROLES) {
+      console.log('checking role ' + role.name);
       if(
-        typeof role.idealCount === 'number' && ( // When an ideal count exists, and
+        typeof role.spawn === 'function' &&           // When a role has a spawning method, and
+        typeof role.idealCount === 'number' && (      // an ideal creep count exists, and
           typeof totals[role.name] === 'undefined' || // no such creeps were found, or
           totals[role.name] < role.idealCount         // less than the ideal count of creeps
         )
       ) {
-        console.log('spawning one more ' + role.name + ' found: ' + totals[role.name]);
+        console.log('spawning one ' + role.name);
         role.spawn();
         break; // exit early to spawn just 1 at a time
       }
