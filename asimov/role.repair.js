@@ -27,6 +27,9 @@ const RoleRepair = {
           return object.hits < object.hitsMax;
         }
       );
+      if(target.length === 0) {
+        console.log('no target');
+      }
       console.log('repair target: ', target);
 
       if(target.length > 0) {
