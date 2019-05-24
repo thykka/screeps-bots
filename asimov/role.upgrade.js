@@ -2,7 +2,7 @@ const RoleUpgrade = {
   name: 'upgrade',
   idealCount: 3,
   spawn: (spawner) => {
-    spawner.spawnCreep(
+    return spawner.spawnCreep(
       [WORK, MOVE, CARRY],
       'Upgrade1', {
         memory: {

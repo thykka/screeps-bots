@@ -2,7 +2,7 @@ const RoleBuild = {
   name: 'build',
   idealCount: 1,
   spawn: (spawner) => {
-    spawner.spawnCreep(
+    return spawner.spawnCreep(
       [WORK, MOVE, CARRY],
       'Build1', {
         memory: {
