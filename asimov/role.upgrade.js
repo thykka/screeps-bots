@@ -1,6 +1,6 @@
 const RoleUpgrade = {
   name: 'upgrade',
-  idealCount: 1,
+  idealCount: 3,
   spawn: (spawner) => {
     spawner.spawnCreep(
       [WORK, MOVE, CARRY],
