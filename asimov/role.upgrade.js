@@ -27,9 +27,9 @@ const RoleUpgrade = {
       }
     }
     else {
-      let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-      if(source && creep.harvest(source) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffff00'}});
+      let sources = creep.room.find(FIND_SOURCES_ACTIVE);
+      if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
       }
     }
   }
