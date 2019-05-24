@@ -1,10 +1,10 @@
 const RoleRepair = {
   name: 'repair',
   idealCount: 0,
-  spawn: (spawner) => {
+  spawn: (spawner, index) => {
     return spawner.spawnCreep(
       [WORK, MOVE, CARRY],
-      'repair1', {
+      RoleRepair.name + index, {
         memory: {
           role: RoleRepair.name,
           working: false
