@@ -58,7 +58,7 @@ function runCreepsWithRoles(creeps, roles = ROLES) {
     try {
       if(role && typeof role.run === 'function') role.run(creep);
     } catch(e) {
-      console.log(e);
+      console.log(e, creep.name);
     }
   });
 }
