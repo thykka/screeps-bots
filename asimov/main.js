@@ -15,7 +15,8 @@ const cleanMemory = require('util.clean-memory');
  * @param {object} [options.creeps] - Hash of creeps to search within (Game.screeps)
  * @returns {object} - Hash of totals found
  */
-function countCreeps({ group = 'role', creeps = Game.creeps } = {}) {
+function countCreeps(creeps, group = 'role') {
+  // TODO: Filter out creeps the player can't control
   return Object.values(creeps).reduce((totals, creep) => {
     if(totals[creep.memory[group]] === undefined) totals[creep.memory[group]] = 0;
     totals[creep.memory[group]]++;
@@ -27,14 +28,13 @@ function countCreeps({ group = 'role', creeps = Game.creeps } = {}) {
  * Spawns the ideal amount of creeps for each role, if
  * @param {Object} [roles] - A hash of roles to spawn from
  */
-function spawnIdealRoleCreeps(roles = ROLES) {
-  const spawner = Game.spawns['Spawn1'];
+function spawnIdealRoleCreeps(spawner, roles = ROLES) {
   if(
     spawner.energy >= 300 &&
     !spawner.spawning
   ) {
-    const totals = countCreeps();
-    console.log('can spawn, found ' + JSON.stringify(totals));
+    const totals = countCreeps(Game.creeps);
+    console.log('Role fulfillment ' + JSON.stringify(totals).replace(/[\"\{\}]/g,''));
     for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
@@ -43,7 +43,7 @@ function spawnIdealRoleCreeps(roles = ROLES) {
           totals[role] < roles[role].idealCount         // less than the ideal count of creeps
         )
       ) {
-        console.log('spawning one ' + role);
+        spawner.say('+ Spawning ' + role + ' +');
         roles[role].spawn(spawner);
         break; // exit early to spawn just 1 at a time
       }
@@ -51,18 +51,16 @@ function spawnIdealRoleCreeps(roles = ROLES) {
   }
 }
 
+function runCreepsWithRoles(creeps, roles = ROLES) {
+  _.forEach(creeps, (creep) => {
+    const role = roles[creep.memory.role];
+    if(role && typeof role.run === 'function') role.run(creep);
+  });
+}
+
 module.exports.loop = function () {
   cleanMemory.run();
-  try {
-    spawnIdealRoleCreeps();
-  } catch(e) {
-    console.log(e);
-  }
 
-  _.forEach(Game.creeps, (creep) => {
-    const creepRole = ROLES[creep.memory.role];
-    if(creepRole && typeof creepRole['run'] === 'function') {
-      creepRole.run(creep);
-    }
-  });
+  spawnIdealRoleCreeps(Game.spawns['Spawner1']);
+  runCreepsWithRoles(Game.creeps);
 };
