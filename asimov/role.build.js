@@ -1,6 +1,6 @@
 const RoleBuild = {
   name: 'build',
-  idealCount: 10,
+  idealCount: 6,
   spawn: (spawner, prefix) => {
     return spawner.spawnCreep(
       [WORK, MOVE, CARRY],

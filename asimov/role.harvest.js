@@ -1,6 +1,6 @@
 const RoleHarvest = {
   name: 'harvest',
-  idealCount: 1,
+  idealCount: 2,
   body: [WORK, MOVE, CARRY],
   spawn: (spawner, prefix = '') => {
     return spawner.spawnCreep(
