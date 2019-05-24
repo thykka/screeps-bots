@@ -19,14 +19,12 @@ const RoleHarvest = {
       creep.carry.energy === 0
     ) {
       creep.memory.working = false;
-      creep.say('h: harvest');
     }
     else if( // harvesting energy, but full
       !creep.memory.working &&
       creep.carry.energy === creep.carryCapacity
     ) {
       creep.memory.working = true;
-      creep.say('h: transfer');
     }
 
     if(creep.memory.working) {
@@ -46,7 +44,7 @@ const RoleHarvest = {
       } else if(
         creep.transfer(structure, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE
       ) {
-        creep.moveTo(structure, {visualizePathStyle: {stroke: '#00ff88'}});
+        creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffff00'}});
       }
     }
     else { // get more energy
@@ -54,7 +52,7 @@ const RoleHarvest = {
 
       if(source) {
         if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#88ff00'}});
+          creep.moveTo(source, {visualizePathStyle: {stroke: '#000000'}});
         }
       }
     }
