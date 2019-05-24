@@ -21,9 +21,10 @@ const RoleRepair = {
     }
 
     if(creep.memory.repairing) {
-      const target = creep.room.find(FIND_SOURCES_ACTIVE).filter(
+      const target = creep.room.find(FIND_MY_STRUCTURES).filter(
         object => object.hits < object.hitsMax
       );
+      console.log('repair target: ' + target);
 
       if(target.length > 0) {
         const result = creep.repair(target[0]);
