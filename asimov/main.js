@@ -44,7 +44,7 @@ function spawnIdealRoleCreeps(roles = ROLES) {
         )
       ) {
         console.log('spawning one ' + role);
-        roles[role].spawn();
+        roles[role].spawn(spawner);
         break; // exit early to spawn just 1 at a time
       }
     }
