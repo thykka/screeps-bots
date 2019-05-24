@@ -1,9 +1,10 @@
 const RoleHarvest = {
   name: 'harvest',
   idealCount: 1,
+  body: [WORK, MOVE, CARRY],
   spawn: (spawner, index) => {
     return spawner.spawnCreep(
-      [WORK, MOVE, CARRY],
+      RoleHarvest.body,
       RoleHarvest.name + index, {
         memory: {
           role: RoleHarvest.name,
