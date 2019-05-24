@@ -1,10 +1,10 @@
 const RoleBuild = {
   name: 'build',
   idealCount: 3,
-  spawn: (spawner, index) => {
+  spawn: (spawner, prefix) => {
     return spawner.spawnCreep(
       [WORK, MOVE, CARRY],
-      RoleBuild.name + index, {
+      RoleBuild.name + prefix, {
         memory: {
           role: RoleBuild.name,
           working: false
