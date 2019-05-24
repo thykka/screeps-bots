@@ -4,7 +4,7 @@ const ROLES = {
   harvest: require('role.harvest'),
   build: require('role.build'),
   upgrade: require('role.upgrade'),
-  dig: require('role.dig'),
+  repair: require('role.repair'),
 };
 
 const cleanMemory = require('util.clean-memory');
