@@ -29,9 +29,9 @@ const RoleBuild = {
       }
     }
     else {
-      var sources = creep.findClosestByPath(FIND_SOURCES_ACTIVE);
-      if(sources && creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
+      var source = creep.findClosestByPath(FIND_SOURCES_ACTIVE);
+      if(source && creep.harvest(source) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffff00'}});
       }
     }
   }
