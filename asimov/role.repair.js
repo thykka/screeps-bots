@@ -22,7 +22,7 @@ const RoleRepair = {
 
     if(creep.memory.repairing) {
       const flag = Object.values(Game.flags)[0];
-      const target = flag ? creep.room.find(FIND_MY_STRUCTURES, {
+      const target = flag ? creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
         filter: object => object.hits < object.hitsMax
       })[0] : false;
 
@@ -37,7 +37,7 @@ const RoleRepair = {
       }
     }
     else {
-      var sources = creep.room.find(FIND_SOURCES_ACTIVE);
+      var sources = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
         creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
       }
