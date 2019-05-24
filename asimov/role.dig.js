@@ -23,7 +23,7 @@ const RoleDig = {
       const result = creep.dismantle(target) ;
       if(result == ERR_NOT_IN_RANGE) {
         creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
-      } else { console.log('! dig failed: ' + result); }
+      } else { console.log('! dig failed: ' + result + ' Flag: ' + JSON.stringify(target)); }
     }
     /*
     if(creep.memory.digging && creep.carry.energy == 0) {
