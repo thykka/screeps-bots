@@ -7,7 +7,7 @@ const RoleRepair = {
       RoleRepair.name + prefix, {
         memory: {
           role: RoleRepair.name,
-          working: false
+          repairing: false
         }
       }
     );

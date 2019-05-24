@@ -7,7 +7,7 @@ const RoleBuild = {
       RoleBuild.name + prefix, {
         memory: {
           role: RoleBuild.name,
-          working: false
+          building: false
         }
       }
     );

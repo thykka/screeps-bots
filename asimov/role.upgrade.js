@@ -7,7 +7,7 @@ const RoleUpgrade = {
       RoleUpgrade.name + prefix, {
         memory: {
           role: RoleUpgrade.name,
-          working: false
+          upgrading: false
         }
       }
     );
