@@ -20,9 +20,10 @@ const RoleDig = {
       */
     const target = Object.values(Game.flags)[0];
     if(target) {
-      if(creep.dismantle(target) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(target);
-      }
+      const notCloseToFlag = creep.dismantle(target) == ERR_NOT_IN_RANGE;
+      if(notCloseToFlag) {
+        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+      } else { console.log('! dig failed: ' + notCloseToFlag); }
     }
     /*
     if(creep.memory.digging && creep.carry.energy == 0) {
