@@ -61,6 +61,6 @@ function runCreepsWithRoles(creeps, roles = ROLES) {
 module.exports.loop = function () {
   cleanMemory.run();
 
-  spawnIdealRoleCreeps(Game.spawns['Spawner1']);
+  spawnIdealRoleCreeps(Game.spawns['Spawn1']);
   runCreepsWithRoles(Game.creeps);
 };
