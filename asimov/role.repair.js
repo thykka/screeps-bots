@@ -1,6 +1,6 @@
 const RoleRepair = {
   name: 'repair',
-  idealCount: 2,
+  idealCount: 3,
   spawn: (spawner, prefix) => {
     return spawner.spawnCreep(
       [WORK, MOVE, CARRY],
