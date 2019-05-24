@@ -1,5 +1,17 @@
 const RoleUpgrade = {
-
+  name: 'upgrade',
+  idealCount: 1,
+  spawn: (spawner) => {
+    spawner.spawnCreep(
+      [WORK, MOVE, CARRY],
+      'Upgrade1', {
+        memory: {
+          role: RoleUpgrade.name,
+          working: false
+        }
+      }
+    );
+  },
   run: (creep) => {
 
     if(creep.memory.upgrading && creep.carry.energy == 0) {

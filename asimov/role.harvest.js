@@ -6,7 +6,7 @@ const RoleHarvest = {
       [WORK, MOVE, CARRY],
       'Harvest1', {
         memory: {
-          role: 'harvest',
+          role: RoleHarvest.name,
           working: false
         }
       }

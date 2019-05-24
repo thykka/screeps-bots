@@ -1,5 +1,17 @@
 const RoleBuild = {
   name: 'build',
+  idealCount: 1,
+  spawn: (spawner) => {
+    spawner.spawnCreep(
+      [WORK, MOVE, CARRY],
+      'Build1', {
+        memory: {
+          role: RoleBuild.name,
+          working: false
+        }
+      }
+    );
+  },
   run: (creep) => {
     if(creep.memory.building && creep.carry.energy == 0) {
       creep.memory.building = false;
