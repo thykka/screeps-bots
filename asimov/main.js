@@ -15,7 +15,7 @@ const cleanMemory = require('util.clean-memory');
  * @param {object} [options.creeps] - Hash of creeps to search within (Game.screeps)
  * @returns {object} - Hash of totals found
  */
-function countCreeps({ group = 'role', creeps = Game.creeps }) {
+function countCreeps({ group = 'role', creeps = Game.creeps } = {}) {
   return Object.values(creeps).reduce((totals, creep) => {
     if(totals[creep.memory[group]] === undefined) totals[creep.memory[group]] = 0;
     totals[creep.memory[group]]++;
