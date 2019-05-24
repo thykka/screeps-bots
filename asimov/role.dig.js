@@ -18,12 +18,13 @@ const RoleDig = {
     const target = creep.pos.findClosestByRange(FIND_STRUCTURES,
       {filter: {structureType: STRUCTURE_WALL}});
       */
-    const target = Object.values(Game.flags)[0];
+    const flag = Object.values(Game.flags)[0];
+    target = flag ? flag.pos.lookFor(LOOK_STRUCTURES)[0] : false;
     if(target) {
       const result = creep.dismantle(target) ;
       if(result == ERR_NOT_IN_RANGE) {
         creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
-      } else { console.log('! dig failed: ' + result + ' Flag: ' + JSON.stringify(target)); }
+      } else { console.log('! dig failed: ' + result + ' Flag: ' + JSON.stringify(target.pos)); }
     }
     /*
     if(creep.memory.digging && creep.carry.energy == 0) {
