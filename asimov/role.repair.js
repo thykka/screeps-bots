@@ -35,7 +35,9 @@ const RoleRepair = {
               ) && object.hits < object.hitsMax
             );
           }
-        );
+        ).sort((a, b) => {
+          return a.hits - b.hits;
+        });
       }
       if(target.length > 0) {
         const result = creep.repair(target[0]);
