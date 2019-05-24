@@ -21,14 +21,19 @@ const RoleRepair = {
     }
 
     if(creep.memory.repairing) {
-      const target = creep.room.find(FIND_MY_STRUCTURES).filter(
+      let target = creep.room.find(FIND_MY_STRUCTURES).filter(
         object => {
           console.log(Object.entries(object));
           return object.hits < object.hitsMax;
         }
       );
       if(target.length === 0) {
-        console.log('no target');
+        target = creep.room.find(FIND_STRUCTURES).filter(
+          object => {
+            console.log(Object.entries(object));
+            return object.hits < object.hitsMax;
+          }
+        );
       }
       console.log('repair target: ', target);
 
