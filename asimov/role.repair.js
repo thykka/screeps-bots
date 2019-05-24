@@ -20,7 +20,7 @@ const RoleRepair = {
       */
     const flag = Object.values(Game.flags)[0];
     console.log('flag: ' + JSON.stringify(flag ? flag.pos : flag));
-    const target = flag ? flag.pos.find(FIND_MY_STRUCTURES, {
+    const target = flag ? creep.pos.find(FIND_MY_STRUCTURES, {
       filter: object => object.hits < object.hitsMax
     }) : false;
     console.log('target: ' + JSON.stringify(target));
