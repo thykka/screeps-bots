@@ -30,8 +30,10 @@ const RoleRepair = {
       if(target.length === 0) {
         target = creep.room.find(FIND_STRUCTURES).filter(
           object => {
-            console.log(Object.entries(object));
-            return object.hits < object.hitsMax;
+            console.log(object instanceof StructureRoad);
+            return (
+              object.hits < object.hitsMax
+            );
           }
         );
       }
