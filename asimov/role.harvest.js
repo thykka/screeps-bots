@@ -1,5 +1,17 @@
 const RoleHarvest = {
   name: 'harvest',
+  idealCount: 1,
+  spawn: (spawner) => {
+    spawner.spawnCreep(
+      [WORK, MOVE, CARRY],
+      'Harvest1', {
+        memory: {
+          role: 'harvest',
+          working: false
+        }
+      }
+    );
+  },
   run: (creep) => {
     if( // bringing energy to structure, but no energy left
       creep.memory.working &&
