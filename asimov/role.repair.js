@@ -21,10 +21,9 @@ const RoleRepair = {
     }
 
     if(creep.memory.repairing) {
-      const flag = Object.values(Game.flags)[0] | false;
-      const target = flag ? creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-        filter: object => object.hits < object.hitsMax
-      })[0] : false;
+      const target = creep.room.find(FIND_SOURCES_ACTIVE).filter(
+        object => object.hits < object.hitsMax
+      )[0];
 
       if(target) {
         const result = creep.repair(target);
