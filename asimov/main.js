@@ -36,7 +36,7 @@ function spawnIdealRoleCreeps(roles = ROLES) {
     const totals = countCreeps();
     console.log('can spawn, found ' + JSON.stringify(totals));
     for(const role in ROLES) {
-      console.log('checking role ' + role.name);
+      console.log('checking role ' + JSON.stringify(role));
       if(
         typeof role.spawn === 'function' &&           // When a role has a spawning method, and
         typeof role.idealCount === 'number' && (      // an ideal creep count exists, and
