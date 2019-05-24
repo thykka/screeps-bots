@@ -23,7 +23,9 @@ const RoleRepair = {
     if(creep.memory.repairing) {
       let target = creep.room.find(FIND_MY_STRUCTURES).filter(
         object => object.hits < object.hitsMax
-      );
+      ).sort((a, b) => {
+        return a.hits - b.hits;
+      });
       if(target.length === 0) {
         target = creep.room.find(FIND_STRUCTURES).filter(
           object => {
@@ -43,11 +45,9 @@ const RoleRepair = {
         const result = creep.repair(target[0]);
         if(result == ERR_NOT_IN_RANGE) {
           creep.moveTo(target[0], {visualizePathStyle: {stroke: '#00ff00'}});
-        }
-        if(result !== 0) {
+        } else if(result !== 0) {
           console.log('cannot repair: ' + result + ', ' + JSON.stringify(Object.values(target[0])));
         }
-        console.log('repairing: ', JSON.stringify(target[0]));
       }
     }
     else {
