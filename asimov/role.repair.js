@@ -17,14 +17,16 @@ const findRepairTarget = function(creep, creepIndex = 0) {
       .sort((a, b) => a.hits - b.hits);
   }
 
-  console.log('- possible targets:' + targets.length + ' chosen target:' + (creepIndex % targets.length));
 
   const selectedTarget = targets.length > 1 ?
     targets[creepIndex % targets.length] :
     targets[0];
 
+  console.log(
+    '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
+    ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
+  );
   // Save target ID to memory
-  console.log('- ' + creep.name + ': new target: ' + selectedTarget.structureType);
   creep.memory.target = selectedTarget.id;
   return selectedTarget;
 };
