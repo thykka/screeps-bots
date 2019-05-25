@@ -17,7 +17,7 @@ const findRepairTarget = function(creep) {
   }
 
   // Save target ID to memory
-  console.log('Saving target ' + JSON.stringify(target[0]));
+  console.log('Saving target ' + target[0].structureType);
   creep.memory.target = target.length > 0 ? target[0].id : false;
   return target.length === 0 ? false : target[0];
 };
@@ -45,7 +45,11 @@ const RoleRepair = {
     if(creep.memory.repairing) {
       if(!creep.memory.target) findRepairTarget(creep);
       if(creep.memory.target) {
-        const target = Game.getObjectById(creep.memory.target);
+        let target = Game.getObjectById(creep.memory.target);
+        if(!target || target.hits === target.hitsMax) {
+          findRepairTarget(creep);
+          target = Game.getObjectById(creep.memory.target);
+        }
         if(target) {
           const result = creep.repair(target);
           if(result == ERR_NOT_IN_RANGE) {
