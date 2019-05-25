@@ -1,13 +1,13 @@
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 
-const findRepairTarget = function(creep, creepIndex) {
-  let target = creep.room.find(FIND_MY_STRUCTURES)
+const findRepairTarget = function(creep, creepIndex = 0) {
+  let targets = creep.room.find(FIND_MY_STRUCTURES)
     .filter(o => o.hits < o.hitsMax)
     .sort((a, b) => a.hits - b.hits);
 
-  if(target.length === 0) {
-    target = creep.room.find(FIND_STRUCTURES)
+  if(targets.length === 0) {
+    targets = creep.room.find(FIND_STRUCTURES)
       .filter(o => ((
         o instanceof StructureWall ||
         o instanceof StructureRampart ||
@@ -17,12 +17,14 @@ const findRepairTarget = function(creep, creepIndex) {
       .sort((a, b) => a.hits - b.hits);
   }
 
-  const selectedTarget = target.length > 0 ? target[creepIndex % (target.length)] : target[0];
+  const selectedTarget = targets.length > 1 ?
+    targets[creepIndex % (targets.length)] :
+    targets[0];
 
   // Save target ID to memory
   console.log('- ' + creep.name + ': new target: ' + selectedTarget.structureType);
-  creep.memory.target = target.length > 0 ? selectedTarget.id : false;
-  return target.length === 0 ? false : selectedTarget;
+  creep.memory.target = selectedTarget.id;
+  return selectedTarget;
 };
 
 const RoleRepair = {
@@ -42,7 +44,7 @@ const RoleRepair = {
     // Switch to repairing
     if(!creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
       creep.memory.repairing = true;
-      findRepairTarget(creep);
+      findRepairTarget(creep, creepIndex);
     }
 
     if(creep.memory.repairing) {
@@ -55,7 +57,7 @@ const RoleRepair = {
       // Check if target is still valid
       if(!target || target.hits === target.hitsMax) {
         // Refresh target
-        findRepairTarget(creep);
+        findRepairTarget(creep, creepIndex);
         target = Game.getObjectById(creep.memory.target);
       }
 
