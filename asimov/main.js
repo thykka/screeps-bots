@@ -10,11 +10,10 @@ const ROLES = {
 };
 
 function loadIdealAmounts(spawn, roles) {
-  const ideal = '';
-  Object.values(roles).forEach(role => {
-    ideal + role.name + ':' + role.idealCount + ';';
-  });
-  spawn.memory.ideal = ideal.slice(0, -1);
+  Object.values(roles).reduce((ideal, role) => {
+    return (ideal.length === 0 ? '' : ';') + role.name + ':' + role.idealCount;
+  }, '');
+  spawn.memory.ideal = ideal;
 }
 function readIdealAmounts(spawn) {
   if(spawn.memory.ideal) {
