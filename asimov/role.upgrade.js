@@ -23,7 +23,7 @@ const RoleUpgrade = {
       }
     }
     else {
-      harvestBehavior(creep, true);
+      harvestBehavior(creep);
     }
   }
 };
