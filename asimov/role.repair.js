@@ -1,4 +1,5 @@
 const spawnDrone = require('spawn.drone');
+const harvestBehavior = require('behavior.harvest');
 
 const findRepairTarget = function(creep) {
   let target = creep.room.find(FIND_MY_STRUCTURES)
@@ -61,10 +62,7 @@ const RoleRepair = {
       }
     }
     else { // creep not repairing => harvest more energy
-      let sources = creep.room.find(FIND_SOURCES_ACTIVE);
-      if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
-      }
+      harvestBehavior(creep);
     }
   }
 };

@@ -1,4 +1,5 @@
 const spawnDrone = require('spawn.drone');
+const harvestBehavior = require('behavior.harvest');
 
 const RoleUpgrade = {
   name: 'upgrade',
@@ -22,10 +23,7 @@ const RoleUpgrade = {
       }
     }
     else {
-      let sources = creep.room.find(FIND_SOURCES_ACTIVE);
-      if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
-      }
+      harvestBehavior(creep);
     }
   }
 };

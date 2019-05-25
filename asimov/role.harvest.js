@@ -1,4 +1,5 @@
 const spawnDrone = require('spawn.drone');
+const harvestBehavior = require('behavior.harvest');
 
 const RoleHarvest = {
   name: 'harvest',
@@ -42,13 +43,7 @@ const RoleHarvest = {
       }
     }
     else { // get more energy
-      const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-
-      if(source) {
-        if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#000000'}});
-        }
-      }
+      harvestBehavior(creep, true);
     }
   }
 };
