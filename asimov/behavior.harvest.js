@@ -2,7 +2,7 @@ const harvestBehavior = function(creep, byPath = false) {
 
   let source = creep.room.find(FIND_DROPPED_RESOURCES, {
     filter: o => {return o instanceof Energy; }
-  });
+  })[0];
 
   if(!source) {
     source = byPath ?
