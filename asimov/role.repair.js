@@ -1,17 +1,12 @@
+const spawnDrone = require('spawn.drone');
+
 const RoleRepair = {
   name: 'repair',
   idealCount: 3,
-  spawn: (spawner, prefix) => {
-    return spawner.spawnCreep(
-      [WORK, MOVE, CARRY],
-      RoleRepair.name + prefix, {
-        memory: {
-          role: RoleRepair.name,
-          repairing: false
-        }
-      }
-    );
+  memory: {
+    repairing: false,
   },
+  spawn: (spawner, prefix) => spawnDrone(spawner, RoleRepair, [WORK, CARRY, CARRY, MOVE], prefix),
   run: (creep) => {
     if(creep.memory.repairing && creep.carry.energy == 0) {
       creep.memory.repairing = false;

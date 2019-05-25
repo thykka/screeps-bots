@@ -1,18 +1,12 @@
+const spawnDrone = require('spawn.drone');
+
 const RoleHarvest = {
   name: 'harvest',
   idealCount: 2,
-  body: [WORK, MOVE, CARRY],
-  spawn: (spawner, prefix = '') => {
-    return spawner.spawnCreep(
-      RoleHarvest.body,
-      RoleHarvest.name + prefix, {
-        memory: {
-          role: RoleHarvest.name,
-          working: false
-        }
-      }
-    );
+  memory: {
+    working: false,
   },
+  spawn: (spawner, prefix) => spawnDrone(spawner, RoleHarvest, [WORK, WORK, CARRY, MOVE], prefix),
   run: (creep) => {
     if( // bringing energy to structure, but no energy left
       creep.memory.working &&

@@ -1,17 +1,12 @@
+const spawnDrone = require('spawn.drone');
+
 const RoleUpgrade = {
   name: 'upgrade',
   idealCount: 8,
-  spawn: (spawner, prefix) => {
-    return spawner.spawnCreep(
-      [WORK, MOVE, CARRY],
-      RoleUpgrade.name + prefix, {
-        memory: {
-          role: RoleUpgrade.name,
-          upgrading: false
-        }
-      }
-    );
+  memory: {
+    upgrading: false,
   },
+  spawn: (spawner, prefix) => spawnDrone(spawner, RoleUpgrade, [WORK, CARRY, CARRY, MOVE], prefix),
   run: (creep) => {
 
     if(creep.memory.upgrading && creep.carry.energy == 0) {
