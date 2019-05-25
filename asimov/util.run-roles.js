@@ -6,7 +6,7 @@ const _ = require('lodash');
  * @param {object} roles - A hash of roles to process
  */
 function runCreepsWithRoles(creeps, roles) {
-  _.forEach(creeps, (creep, creepIndex) => {
+  Object.values(creeps).forEach((creep, creepIndex) => {
     const role = roles[creep.memory.role];
     try {
       if(role && typeof role.run === 'function') role.run(creep, creepIndex);
