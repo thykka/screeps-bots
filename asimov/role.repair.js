@@ -21,7 +21,7 @@ const RoleRepair = {
         .filter(o => o.hits < o.hitsMax)
         .sort((a, b) => a.hits - b.hits);
 
-      íf(target.length === 0) {
+      if(target.length === 0) {
         target = creep.room.find(FIND_STRUCTURES)
           .filter(o => ((
             o instanceof StructureWall ||
