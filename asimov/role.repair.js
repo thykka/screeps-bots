@@ -33,6 +33,7 @@ const RoleRepair = {
       }
 
       // Save target ID to memory
+      console.log('Saving target ' + JSON.stringify(target[0]));
       creep.memory.target = target.length > 0 ? target[0].id : false;
     }
 
