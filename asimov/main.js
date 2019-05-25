@@ -35,7 +35,7 @@ function spawnIdealRoleCreeps(spawner, roles = ROLES) {
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    console.log('Creeps: ' + JSON.stringify(totals).replace(/[\"\{\}]/g,'').replace(',', ', '));
+    console.log('- creeps ' + JSON.stringify(totals).replace(/[\"]/g,' '));
     for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
