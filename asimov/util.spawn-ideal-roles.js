@@ -10,7 +10,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    console.log(
+    console.log('- ' +
       Object.entries(ideals).reduce((log, [roleName, ideal]) => {
         if(log.length > 0) log += ', ';
         return log + roleName + ': ' + totals[roleName] + '/' + ideal;
