@@ -2,13 +2,13 @@ const harvestBehavior = function(creep, byPath = false) {
 
   let source = false;
 
+  /* Pick up dropped energy. TODO: not working, check how to pick up
   if(!byPath) {
     source = creep.room.find(FIND_DROPPED_RESOURCES, {
       filter: o => {return o instanceof Energy; }
     })[0];
-
-    console.log(JSON.stringify(Object.values(source)));
   }
+  */
 
   if(!source) {
     source = byPath ?
