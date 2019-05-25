@@ -1,36 +1,6 @@
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 
-const findRepairTarget = function(creep, creepIndex = 0) {
-  let targets = creep.room.find(FIND_MY_STRUCTURES)
-    .filter(o => o.hits < o.hitsMax)
-    .sort((a, b) => a.hits - b.hits);
-
-  if(targets.length === 0) {
-    targets = creep.room.find(FIND_STRUCTURES)
-      .filter(o => ((
-        o instanceof StructureWall ||
-        o instanceof StructureRampart ||
-        o instanceof StructureTower ||
-        o instanceof StructureRoad
-      ) && o.hits < o.hitsMax ))
-      .sort((a, b) => a.hits - b.hits);
-  }
-
-
-  const selectedTarget = targets.length > 1 ?
-    targets[creepIndex % targets.length] :
-    targets[0];
-
-  console.log(
-    '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
-    ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
-  );
-  // Save target ID to memory
-  creep.memory.target = selectedTarget.id;
-  return selectedTarget;
-};
-
 const RoleRepair = {
   name: 'repair',
   idealCount: 4,
@@ -81,5 +51,35 @@ const RoleRepair = {
     }
   }
 };
+
+function findRepairTarget(creep, creepIndex = 0) {
+  let targets = creep.room.find(FIND_MY_STRUCTURES)
+    .filter(o => o.hits < o.hitsMax)
+    .sort((a, b) => a.hits - b.hits);
+
+  if(targets.length === 0) {
+    targets = creep.room.find(FIND_STRUCTURES)
+      .filter(o => ((
+        o instanceof StructureWall ||
+        o instanceof StructureRampart ||
+        o instanceof StructureTower ||
+        o instanceof StructureRoad
+      ) && o.hits < o.hitsMax ))
+      .sort((a, b) => a.hits - b.hits);
+  }
+
+
+  const selectedTarget = targets.length > 1 ?
+    targets[creepIndex % targets.length] :
+    targets[0];
+
+  console.log(
+    '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
+    ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
+  );
+  // Save target ID to memory
+  creep.memory.target = selectedTarget.id;
+  return selectedTarget;
+}
 
 module.exports = RoleRepair;

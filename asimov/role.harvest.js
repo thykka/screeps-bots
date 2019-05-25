@@ -3,7 +3,7 @@ const harvestBehavior = require('behavior.harvest');
 
 const RoleHarvest = {
   name: 'harvest',
-  idealCount: 2,
+  idealCount: 3,
   memory: {
     working: false,
   },
