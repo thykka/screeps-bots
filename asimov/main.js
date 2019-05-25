@@ -44,8 +44,7 @@ function spawnIdealRoleCreeps(spawner, roles = ROLES) {
           totals[role] < roles[role].idealCount         // less than the ideal count of creeps
         )
       ) {
-        const result = roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
-        console.log(result ? '+ spawning ' + role : 'x spawning failed: ' + result);
+        roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
         break; // exit early to spawn just 1 at a time
       }
     }
