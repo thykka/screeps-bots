@@ -33,7 +33,7 @@ const findRepairTarget = function(creep, creepIndex = 0) {
 
 const RoleRepair = {
   name: 'repair',
-  idealCount: 3,
+  idealCount: 4,
   memory: {
     repairing: false,
     target: false,
