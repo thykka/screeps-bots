@@ -26,11 +26,11 @@ function readIdealAmounts(spawn) {
   }
 }
 
-loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
-const SPAWN = Game.spawns['Spawn1'];
+loadIdealAmounts(SPAWN, ROLES);
 
 module.exports.loop = function () {
+  const SPAWN = Game.spawns['Spawn1'];
   cleanMemory();
   spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
   runCreepsWithRoles(Game.creeps, ROLES);
