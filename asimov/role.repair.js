@@ -17,7 +17,7 @@ const findRepairTarget = function(creep, creepIndex) {
       .sort((a, b) => a.hits - b.hits);
   }
 
-  const selectedTarget = target[creepIndex % (target.length - 1)];
+  const selectedTarget = target[creepIndex % (target.length)];
 
   // Save target ID to memory
   console.log('- ' + creep.name + ': new target: ' + selectedTarget.structureType);
