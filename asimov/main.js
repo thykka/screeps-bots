@@ -27,7 +27,7 @@ function readIdealAmounts(spawn) {
 }
 
 
-loadIdealAmounts(SPAWN, ROLES);
+loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
 module.exports.loop = function () {
   const SPAWN = Game.spawns['Spawn1'];
