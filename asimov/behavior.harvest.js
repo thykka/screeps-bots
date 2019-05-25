@@ -1,7 +1,14 @@
 const harvestBehavior = function(creep, byPath = false) {
-  let source = byPath ?
-    creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
-    creep.room.find(FIND_SOURCES)[0];
+
+  let source = creep.room.find(FIND_DROPPED_RESOURCES, {
+    filter: o => {return o instanceof Energy; }
+  });
+
+  if(!source) {
+    source = byPath ?
+      creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
+      creep.room.find(FIND_SOURCES)[0];
+  }
 
   if(!source) {
     console.log('- ' + creep.name + ': no harvest target');
