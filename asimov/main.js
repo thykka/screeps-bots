@@ -17,9 +17,10 @@ function loadIdealAmounts(spawn, roles) {
 }
 function readIdealAmounts(spawn) {
   if(spawn.memory.ideal) {
-    return spawn.memory.ideal.split(';').reduce((a, b) => {
-      a[b.name] = b.idealCount;
-      return a;
+    return spawn.memory.ideal.split(';').reduce((ideal, b) => {
+      const [name, count] = b.split(':');
+      ideal[name] = count;
+      return ideal;
     }, {});
   }
 }
