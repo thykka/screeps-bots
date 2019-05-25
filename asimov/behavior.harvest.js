@@ -6,6 +6,8 @@ const harvestBehavior = function(creep, byPath = false) {
     source = creep.room.find(FIND_DROPPED_RESOURCES, {
       filter: o => {return o instanceof Energy; }
     })[0];
+
+    console.log(JSON.stringify(Object.values(source)));
   }
 
   if(!source) {
