@@ -1,14 +1,14 @@
 const harvestBehavior = function(creep, byPath = false) {
-  let sources = byPath ?
+  let source = byPath ?
     creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
     creep.room.find(FIND_SOURCES)[0];
 
-  if(sources === undefined) {
+  if(!source) {
     console.log('No harvest targets found!');
   }
 
-  if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-    creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffff00'}});
+  if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+    creep.moveTo(source, {visualizePathStyle: {stroke: '#ffff00'}});
   }
 };
 
