@@ -16,7 +16,6 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
         return log + roleName + ': ' + totals[roleName] + '/' + ideal;
       }, '')
     );
-    console.log('- creeps ' + JSON.stringify(totals).replace(/[\":]/g,' '));
     for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
