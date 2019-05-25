@@ -1,6 +1,7 @@
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
+const towers = require('towers');
 
 const ROLES = {
   harvest: require('role.harvest'),
@@ -27,12 +28,11 @@ function readIdealAmounts(spawn) {
 
 loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
+const SPAWN = Game.spawns['Spawn1'];
+
 module.exports.loop = function () {
   cleanMemory();
-  spawnIdealRoleCreeps(
-    Game.spawns['Spawn1'],
-    ROLES,
-    readIdealAmounts(Game.spawns['Spawn1'])
-  );
+  spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
   runCreepsWithRoles(Game.creeps, ROLES);
+  towers.run(SPAWN.room);
 };
