@@ -18,7 +18,7 @@ const findRepairTarget = function(creep) {
   }
 
   // Save target ID to memory
-  console.log('Saving target ' + target[0].structureType);
+  console.log('- ' + creep.name + ': new target: ' + target[0].structureType);
   creep.memory.target = target.length > 0 ? target[0].id : false;
   return target.length === 0 ? false : target[0];
 };
@@ -44,21 +44,28 @@ const RoleRepair = {
     }
 
     if(creep.memory.repairing) {
+      // Try getting a new target if there's currently none
       if(!creep.memory.target) findRepairTarget(creep);
-      if(creep.memory.target) {
-        let target = Game.getObjectById(creep.memory.target);
-        if(!target || target.hits === target.hitsMax) {
-          findRepairTarget(creep);
-          target = Game.getObjectById(creep.memory.target);
+
+      // Fetch the actual target
+      let target = Game.getObjectById(creep.memory.target);
+
+      // Check if target is still valid
+      if(!target || target.hits === target.hitsMax) {
+        // Refresh target
+        findRepairTarget(creep);
+        target = Game.getObjectById(creep.memory.target);
+      }
+
+      if(target) {
+        const result = creep.repair(target);
+        if(result == ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, {visualizePathStyle: {stroke: '#00ff00'}});
+        } else if(result !== 0) {
+          console.log('- ' + creep.name + ' failed: ' + result + ', ' + JSON.stringify(Object.values(target)));
         }
-        if(target) {
-          const result = creep.repair(target);
-          if(result == ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, {visualizePathStyle: {stroke: '#00ff00'}});
-          } else if(result !== 0) {
-            console.log('cannot repair: ' + result + ', ' + JSON.stringify(Object.values(target)));
-          }
-        }
+      } else { // no targets whatsoever
+        console.log('- ' + creep.name + ': no repair target');
       }
     }
     else { // creep not repairing => harvest more energy

@@ -9,19 +9,17 @@ const RoleHarvest = {
   },
   spawn: (spawner, prefix) => spawnDrone(spawner, RoleHarvest, [WORK, WORK, CARRY, MOVE], prefix),
   run: (creep) => {
-    if( // bringing energy to structure, but no energy left
-      creep.memory.working &&
-      creep.carry.energy === 0
-    ) {
+    // bringing energy to structure, but no energy left
+    if(creep.memory.working && creep.carry.energy === 0) {
       creep.memory.working = false;
     }
-    else if( // harvesting energy, but full
-      !creep.memory.working &&
-      creep.carry.energy === creep.carryCapacity
-    ) {
+
+    // harvesting energy, but full
+    else if(!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
       creep.memory.working = true;
     }
 
+    // unloading energy
     if(creep.memory.working) {
       let structure = creep.pos.findClosestByPath(
         FIND_MY_STRUCTURES,
@@ -42,9 +40,8 @@ const RoleHarvest = {
         creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffff00'}});
       }
     }
-    else { // get more energy
-      harvestBehavior(creep, true);
-    }
+    // get more energy
+    else { harvestBehavior(creep, true); }
   }
 };
 
