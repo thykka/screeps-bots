@@ -1,17 +1,12 @@
+const spawnDrone = require('spawn.drone');
+
 const RoleBuild = {
   name: 'build',
   idealCount: 8,
-  spawn: (spawner, prefix) => {
-    return spawner.spawnCreep(
-      [WORK, MOVE, CARRY],
-      RoleBuild.name + prefix, {
-        memory: {
-          role: RoleBuild.name,
-          building: false
-        }
-      }
-    );
+  memory: {
+    building: false,
   },
+  spawn: (spawner, prefix) => spawnDrone(spawner, RoleBuild, [WORK, CARRY, CARRY, MOVE], prefix),
   run: (creep) => {
     if(creep.memory.building && creep.carry.energy == 0) {
       creep.memory.building = false;
