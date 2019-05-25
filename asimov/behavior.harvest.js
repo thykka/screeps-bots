@@ -4,7 +4,7 @@ const harvestBehavior = function(creep, byPath = false) {
     creep.room.find(FIND_SOURCES)[0];
 
   if(!source) {
-    console.log(creep.name + ': no harvest target');
+    console.log('- ' + creep.name + ': no harvest target');
   }
 
   if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
