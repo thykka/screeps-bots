@@ -19,7 +19,7 @@ function readIdealAmounts(spawn) {
   if(spawn.memory.ideal) {
     return spawn.memory.ideal.split(';').reduce((ideal, b) => {
       const [name, count] = b.split(':');
-      ideal[name] = count;
+      ideal[name] = parseInt(count, 10);
       return ideal;
     }, {});
   }
@@ -29,8 +29,10 @@ loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
 module.exports.loop = function () {
   cleanMemory();
-  spawnIdealRoleCreeps(Game.spawns['Spawn1'], ROLES);
+  spawnIdealRoleCreeps(
+    Game.spawns['Spawn1'],
+    ROLES,
+    readIdealAmounts(Game.spawns['Spawn1'])
+  );
   runCreepsWithRoles(Game.creeps, ROLES);
-
-  console.log(JSON.stringify(readIdealAmounts(Game.spawns['Spawn1'])));
 };
