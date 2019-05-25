@@ -17,8 +17,10 @@ const findRepairTarget = function(creep, creepIndex = 0) {
       .sort((a, b) => a.hits - b.hits);
   }
 
+  console.log('- possible targets:' + targets.length + ' chosen target:' + (creepIndex % targets.length));
+
   const selectedTarget = targets.length > 1 ?
-    targets[creepIndex % (targets.length)] :
+    targets[creepIndex % targets.length] :
     targets[0];
 
   // Save target ID to memory
