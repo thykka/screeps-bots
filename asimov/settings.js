@@ -24,8 +24,8 @@ bodyLevels[0] = bodyLevels[1];
 bodyLevels[4] = bodyLevels[3];
 const energyLevels = {
   1: 300,
-  2: 375,
-  3: 450,
+  2: 300,
+  3: 400,
 };
 energyLevels[0] = energyLevels[1];
 energyLevels[4] = energyLevels[3];
