@@ -1,4 +1,4 @@
-console.log('! --- start main');
+console.log('---\n\n\n! start main');
 const { debugLevel } = require('settings');
 
 const Cache = require('util.cache');
