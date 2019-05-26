@@ -1,21 +1,44 @@
-
-const thisRoom = Game.spawns.Spawn1.room;
-const Cache = {
-  [thisRoom.name]: {
-
-  },
-  reads: 0,
-  writes: 0,
-  read: function readCache (room, type, force = false) {
-    if(typeof this[room.name] === 'undefined') this[room.name] = {};
-    if(force || typeof this[room.name][type] === 'undefined') {
-      this.writes++;
-      this[room.name][type] = room.find(type);
-    }
-    this.reads++;
-    return this[room.name][type];
+class Finder {
+  constructor(cache) {
+    this.cache = cache;
   }
-};
+
+  /**
+   * Finds room resources while caching results
+   * @param {object} options -
+   * @param {Creep} [options.creep] - If defined, finds sources by creep's current room.
+   * @param {RoomObject} [options.room] - If defined, finds sources by given room.
+   * @param {number} [options.type] - Which type of objects to search for (FIND_* constants)
+   * @param {function} [options.filter] - Optional filter function (note: filter results are not cached)
+   */
+  find({
+    creep = null,
+    room = null,
+    type = FIND_SOURCES,
+    filter = null
+  }) {
+    let sources = [];
+
+    if(creep && !room) {
+      sources = this.cache.read(creep.room, type);
+    }
+    if(!creep && room) {
+      sources = this.cache.read(room, type);
+    }
+
+    if(sources.length > 0) {
+      let filteredSources = (typeof filter === 'function') ?
+        sources.filter(filter) :
+        sources;
+
+      return filteredSources;
+    }
+
+    return [];
+  }
+}
+
+module.exports = Finder;
 
 /*
 const types = {
@@ -44,41 +67,3 @@ const types = {
   117: FIND_NUKES,
 };
 */
-
-/**
- * Finds room resources while caching results
- * @param {object} options -
- * @param {Creep} [options.creep] - If defined, finds sources by creep's current room.
- * @param {RoomObject} [options.room] - If defined, finds sources by given room.
- * @param {number} [options.type] - Which type of objects to search for (FIND_* constants)
- * @param {function} [options.filter] - Optional filter function (note: filter results are not cached)
- */
-const Finder = function Finder({
-  creep = null,
-  room = null,
-  type = FIND_SOURCES,
-  filter = null
-}) {
-  let sources = [];
-
-  if(creep && !room) {
-    sources = Cache.read(creep.room, type);
-  }
-  if(!creep && room) {
-    sources = Cache.read(room, type);
-  }
-
-  if(sources.length > 0) {
-    let filteredSources = (typeof filter === 'function') ?
-      sources.filter(filter) :
-      sources;
-
-    return filteredSources;
-  }
-
-  return [];
-};
-
-Finder.prototype.cache = Cache;
-
-module.exports = Finder;

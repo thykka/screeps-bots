@@ -4,7 +4,7 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
   let sources = [];
 
   if(!byPath) { // Try finding dropped energy
-    sources = finder({
+    sources = finder.find({
       creep,
       type: FIND_DROPPED_RESOURCES,
       filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
@@ -20,7 +20,7 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
   if(!source) { // No dropped energy, find sources instead
     source = byPath ?
       creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
-      finder({
+      finder.find({
         creep,
         type: FIND_SOURCES
       })[0];

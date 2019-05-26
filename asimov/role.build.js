@@ -17,7 +17,7 @@ const RoleBuild = {
     }
 
     if(creep.memory.building) {
-      const targets = finder({
+      const targets = finder.find({
         creep,
         type: FIND_MY_CONSTRUCTION_SITES,
       });

@@ -1,4 +1,7 @@
+const Cache = require('util.cache');
+const cache = new Cache();
 const Finder = require('util.finder');
+const finder = new Finder(cache);
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
@@ -34,7 +37,13 @@ module.exports.loop = function () {
   const SPAWN = Game.spawns['Spawn1'];
   cleanMemory();
   spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
-  runCreepsWithRoles(Game.creeps, ROLES, Finder);
-  towers.run(SPAWN.room, Finder);
-  console.log('> cache stats: w' + Finder.cache.writes + '/r' + Finder.cache.reads + ' (' + (Finder.cache.writes / Finder.cache.reads).toFixed(2) + ')');
+  runCreepsWithRoles(Game.creeps, ROLES, finder);
+  towers.run(SPAWN.room, finder);
+
+  console.log(
+    '> cache stats: w' +
+    finder.cache.writes +
+    '/r' + finder.cache.reads +
+    ' (' + (finder.cache.writes / finder.cache.reads).toFixed(2) + ')'
+  );
 };

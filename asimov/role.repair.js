@@ -53,7 +53,7 @@ const RoleRepair = {
 };
 
 function findRepairTarget(creep, creepIndex = 0, finder) {
-  let targets = finder({
+  let targets = finder.find({
     creep,
     type: FIND_MY_STRUCTURES,
     filter: o => o.hits < o.hitsMax
@@ -63,7 +63,7 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     .sort((a, b) => a.hits - b.hits);
 
   if(targets.length === 0) {
-    targets = finder({
+    targets = finder.find({
       creep,
       type: FIND_STRUCTURES,
       filter: o => ((
