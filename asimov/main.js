@@ -54,10 +54,12 @@ module.exports.loop = function () {
   if(debugLevel > 0) {
     if(dead) {
       console.log('x ' + 'RIP ' + dead);
-      console.log('= ' + displayTotals(ideals));
     }
     if(newCreeps) {
       console.log('+ Welcome aboard, ' + newCreeps);
+    }
+    if(dead || newCreeps) {
+      console.log('= ' + displayTotals(ideals));
     }
   }
   if(debugLevel > 1) {
