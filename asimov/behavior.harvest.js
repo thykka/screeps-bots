@@ -26,8 +26,8 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
       sources = _.sortBy(finder.find({ creep, type: FIND_SOURCES }), s => creep.pos.getRangeTo(s));
       source = sources[0];
     } else {
-      sources = finder.find({ creep, type: FIND_SOURCES_ACTIVE });
-      source = sources[creepIndex % sources.length];
+      sources = _.sortBy(finder.find({ creep, type: FIND_SOURCES_ACTIVE }), s => creep.pos.getRangeTo(s));
+      source = sources[0];
     }
 
     if(!source && debugLevel > 0) {
