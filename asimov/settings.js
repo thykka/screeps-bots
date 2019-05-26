@@ -20,7 +20,7 @@ const bodyLevels = {
 };
 const energyLevels = {
   0: 300,
-  1: 375, // untested
+  1: 300,
   2: 450,
 };
 
