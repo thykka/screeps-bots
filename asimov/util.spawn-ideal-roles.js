@@ -14,7 +14,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    for(const role in roles) {
+    for(const role in _.sortBy(roles, role => totals[role.name])) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
         typeof ideals[role] === 'number' && (      // an ideal creep count exists, and
