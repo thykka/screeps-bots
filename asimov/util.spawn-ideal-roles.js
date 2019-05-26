@@ -15,8 +15,9 @@ function getTotalEnergy(spawner) {
  * @param {Object} [roles] - A hash of roles to spawn from
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
+  const totalEnergy = getTotalEnergy(spawner);
   if(
-    getTotalEnergy(spawner) >= energyRequirement &&
+    totalEnergy >= energyRequirement &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
@@ -37,6 +38,12 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
         roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
         break; // exit early to spawn just 1 at a time
       }
+    }
+  } else if(debugLevel > 0) {
+    if(spawner.spawning) {
+      console.log('- spawning...');
+    } else {
+      console.log('- waiting to spawn, power: ' + totalEnergy);
     }
   }
 };
