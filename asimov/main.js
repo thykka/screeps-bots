@@ -42,7 +42,7 @@ module.exports.loop = function () {
 
   const ideals = readIdealAmounts(SPAWN);
 
-  towers.run(SPAWN.room, finder);
+  towers.run(SPAWN.room, Game.creeps, finder);
 
   spawnIdealRoleCreeps(SPAWN, ROLES, ideals, finder);
 

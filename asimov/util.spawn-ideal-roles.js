@@ -22,15 +22,15 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
         )
       ) {
         roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
-        if(debugLevel > 0) console.log('+ spawned ' + role);
+        if(debugLevel > 0) console.log('s spawned ' + role);
         break; // exit early to spawn just 1 at a time
       }
     }
   } else if(debugLevel > 1) {
     if(spawner.spawning) {
-      console.log('  spawning...');
+      console.log('s spawning ' + spawner.spawning.name + '...');
     } else {
-      console.log('  waiting to spawn, power: ' + totalEnergy);
+      console.log('s waiting for power: ' + totalEnergy);
     }
   }
 };
