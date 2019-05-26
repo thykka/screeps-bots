@@ -46,8 +46,8 @@ module.exports.loop = function () {
     console.log(
       '> cache stats: w' +
       finder.cache.writes +
-      '/r' + finder.cache.reads +
-      ' (' + (100 - (finder.cache.writes * 100 / finder.cache.reads)).toFixed(0) + '% utilization)'
+      '/r' + (finder.cache.reads - finder.cache.writes) +
+      ' (' + (100 - (finder.cache.writes * 100 / (finder.cache.reads - finder.cache.writes))).toFixed(0) + '% utilization)'
     );
   }
 };
