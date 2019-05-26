@@ -7,7 +7,7 @@ const getTotalEnergy = require('util.total-energy');
  * @param {Object} [roles] - A hash of roles to spawn from
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
-  const totalEnergy = getTotalEnergy(spawner, finder);
+  const totalEnergy = getTotalEnergy(spawner, finder, debugLevel > 1);
   let spawned = false;
   if(
     totalEnergy.energy >= energyRequirement &&
