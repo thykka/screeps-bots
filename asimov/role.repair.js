@@ -18,12 +18,12 @@ const RoleRepair = {
     // Switch to repairing
     if(!creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
       creep.memory.repairing = true;
-      findRepairTarget(creep, creepIndex);
+      findRepairTarget(creep, creepIndex, finder);
     }
 
     if(creep.memory.repairing) {
       // Try getting a new target if there's currently none
-      if(!creep.memory.target) findRepairTarget(creep, creepIndex);
+      if(!creep.memory.target) findRepairTarget(creep, creepIndex, finder);
 
       // Fetch the actual target
       let target = Game.getObjectById(creep.memory.target);
@@ -31,7 +31,7 @@ const RoleRepair = {
       // Check if target is still valid
       if(!target || target.hits === target.hitsMax) {
         // Refresh target
-        findRepairTarget(creep, creepIndex);
+        findRepairTarget(creep, creepIndex, finder);
         target = Game.getObjectById(creep.memory.target);
       }
 
@@ -52,14 +52,21 @@ const RoleRepair = {
   }
 };
 
-function findRepairTarget(creep, creepIndex = 0) {
-  let targets = creep.room.find(FIND_MY_STRUCTURES)
-    .filter(o => o.hits < o.hitsMax)
+function findRepairTarget(creep, creepIndex = 0, finder) {
+  let targets = finder({
+    creep,
+    type: FIND_MY_STRUCTURES,
+    filter: o => o.hits < o.hitsMax
+  })
+  //let targets = creep.room.find(FIND_MY_STRUCTURES)
+  //  .filter(o => o.hits < o.hitsMax)
     .sort((a, b) => a.hits - b.hits);
 
   if(targets.length === 0) {
-    targets = creep.room.find(FIND_STRUCTURES)
-      .filter(o => ((
+    targets = finder({
+      creep,
+      type: FIND_STRUCTURES,
+      filter: o => ((
         o instanceof StructureWall ||
         o instanceof StructureRampart ||
         o instanceof StructureTower ||
@@ -67,7 +74,18 @@ function findRepairTarget(creep, creepIndex = 0) {
         o instanceof StructureRampart ||
         o instanceof StructureContainer ||
         o instanceof StructureTerminal
-      ) && o.hits < o.hitsMax ))
+      ) && o.hits < o.hitsMax )
+    })
+    // targets = creep.room.find(FIND_STRUCTURES)
+    //   .filter(o => ((
+    //     o instanceof StructureWall ||
+    //     o instanceof StructureRampart ||
+    //     o instanceof StructureTower ||
+    //     o instanceof StructureRoad ||
+    //     o instanceof StructureRampart ||
+    //     o instanceof StructureContainer ||
+    //     o instanceof StructureTerminal
+    //   ) && o.hits < o.hitsMax ))
       .sort((a, b) => a.hits - b.hits);
   }
 
