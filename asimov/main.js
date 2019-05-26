@@ -5,7 +5,6 @@ const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
-const displayTotals = require('util.display-totals');
 const towers = require('towers');
 
 const ROLES = {
@@ -38,20 +37,36 @@ module.exports.loop = function () {
   const cache = new Cache();
   const finder = new Finder(cache);
   const SPAWN = Game.spawns['Spawn1'];
-  cleanMemory();
+  const dead = cleanMemory();
 
   const ideals = readIdealAmounts(SPAWN);
 
   towers.run(SPAWN.room, Game.creeps, finder);
 
-  spawnIdealRoleCreeps(SPAWN, ROLES, ideals, finder);
+  const newCreeps = spawnIdealRoleCreeps(SPAWN, ROLES, ideals, finder);
 
   runCreepsWithRoles(Game.creeps, ROLES, finder);
 
+  /*--- Logging ---*/
   if(debugLevel > 0) {
-    console.log('% ' + displayTotals(ideals));
+    if(dead) {
+      const displayTotals = require('util.display-totals');
+      console.log('x ' + 'RIP ' + dead);
+      console.log('= ' + displayTotals(ideals));
+    }
+    if(newCreeps) {
+      console.log('+ Welcome aboard, ' + newCreeps);
+    }
   }
   if(debugLevel > 1) {
+    if(!newCreeps) {
+      if(SPAWN.spawning) {
+        console.log('| spawning ' + SPAWN.spawning.name + '...');
+      } else {
+        console.log('| waiting for power: ' + totalEnergy);
+      }
+    }
+
     const { reads, writes } = finder.cache;
     console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
   }
