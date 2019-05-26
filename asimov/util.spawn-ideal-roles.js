@@ -33,10 +33,10 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
     }
   }
   if(debugLevel > 1) {
-    console.log('$ ' + '[' + [...Array(10)].map((x, i, a) =>
+    console.log('$ ' + '[' + [...Array(11)].map((x, i, a) =>
       ('#-'[(i / 10) > (totalEnergy.energy/totalEnergy.max) ? 1 : 0])
     ).join('') + ']');
-    console.log('$ ' + totalEnergy.energy + '/' + energyRequirement + '/' + totalEnergy.max);
+    console.log('$  ' + totalEnergy.energy + '/' + energyRequirement + '/' + totalEnergy.max);
   }
   return spawned;
 };
