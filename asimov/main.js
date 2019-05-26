@@ -44,6 +44,6 @@ module.exports.loop = function () {
 
   if(debugLevel > 0) {
     const { reads, writes } = finder.cache;
-    console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100).toFixed(0) + '%)');
+    console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
   }
 };
