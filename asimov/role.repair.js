@@ -1,7 +1,6 @@
 const { debugLevel, body } = require('settings');
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
-
 const RoleRepair = {
   name: 'repair',
   idealCount: 4,
@@ -41,11 +40,11 @@ const RoleRepair = {
         if(result == ERR_NOT_IN_RANGE) {
           creep.moveTo(target, {visualizePathStyle: {stroke: '#00ff00'}});
         } else if(result !== 0) {
-          console.log('- ' + creep.name + ' failed: ' + result + ', ' + JSON.stringify(Object.values(target)));
+          console.log('# ' + creep.name + ' failed: ' + result + ', ' + JSON.stringify(Object.values(target)));
         }
       } else { // no targets whatsoever
-        if(debugLevel > 0) {
-          console.log('- ' + creep.name + ': no repair target');
+        if(debugLevel > 1) {
+          console.log('# ' + creep.name + ': no repair target');
         }
       }
     }
@@ -86,10 +85,10 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
   // Save target ID to memory
   creep.memory.target = selectedTarget.id;
 
-  if(debugLevel > 0) {
+  if(debugLevel > 1) {
     console.log(
-      '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
-      ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
+      '# ' + creep.name + ': new target: ' + selectedTarget.structureType +
+      ' (' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
     );
   }
 
