@@ -34,7 +34,7 @@ function readIdealAmounts(spawn) {
 }
 
 
-loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
+if(!spawn.memory.ideal) loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
 module.exports.loop = function () {
   const cache = new Cache();
