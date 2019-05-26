@@ -1,3 +1,5 @@
+const Finder = require('util.finder');
+
 const harvestBehavior = function(creep, byPath = false) {
 
   let source = false;
@@ -12,7 +14,10 @@ const harvestBehavior = function(creep, byPath = false) {
   if(sources.length === 0) {
     source = byPath ?
       creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
-      creep.room.find(FIND_SOURCES)[0];
+      Finder({
+        creep,
+        type: FIND_SOURCES
+      })[0]; //creep.room.find(FIND_SOURCES)[0];
   }
 
   if(!source && !sources.length) {
