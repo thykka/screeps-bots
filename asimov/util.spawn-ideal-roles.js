@@ -1,32 +1,6 @@
 const { debugLevel, energyRequirement } = require('settings');
 const countCreeps = require('util.count-creeps');
-
-function getTotalEnergy(spawner, finder) {
-  const extensionEnergy = finder.find({
-    room: spawner.room,
-    type: FIND_MY_STRUCTURES,
-    filter: o => o instanceof StructureExtension,
-  }).reduce((acc, o) => o.energy + acc, 0);
-  /*
-  const extensionEnergy = spawner.room.find(FIND_MY_STRUCTURES, {
-    filter: o => o instanceof StructureExtension
-  }).reduce((acc, o) => {
-    return o.energy + acc;
-  }, 0);
-  */
-  return extensionEnergy + spawner.energy;
-}
-
-function displayTotals(totals) {
-  console.log(
-    Object.entries(totals).reduce((acc, [totalName, total], index, arr)=> {
-      return acc + (
-        totalName[0] + totalName[totalName.length-1] + ': ' + total +
-        index < (arr.length - 1) ? ' ' : ''
-      );
-    }, '% ')
-  );
-}
+const getTotalEnergy = require('util.total-energy');
 
 /**
  * Spawns the ideal amount of creeps for each role, if
@@ -39,7 +13,6 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    if(debugLevel > 0) displayTotals(totals);
     for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and

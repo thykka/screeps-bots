@@ -5,6 +5,8 @@ const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
+// const getTotalEnergy = require('util.total-energy');
+const displayTotals = require('util.display-totals');
 const towers = require('towers');
 
 const ROLES = {
@@ -43,6 +45,12 @@ module.exports.loop = function () {
   towers.run(SPAWN.room, finder);
 
   if(debugLevel > 0) {
+    // console.log(getTotalEnergy(SPAWN, finder));
+    displayTotals(
+      countCreeps(Game.creeps)
+    );
+  }
+  if(debugLevel > 1) {
     const { reads, writes } = finder.cache;
     console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
   }
