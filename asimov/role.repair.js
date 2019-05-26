@@ -9,7 +9,7 @@ const RoleRepair = {
     target: false,
   },
   spawn: (spawner, prefix) => spawnDrone(spawner, RoleRepair, [WORK, CARRY, CARRY, MOVE], prefix),
-  run: (creep, creepIndex) => {
+  run: (creep, creepIndex, finder) => {
     // Switch to getting energy
     if(creep.memory.repairing && creep.carry.energy == 0) {
       creep.memory.repairing = false;
@@ -47,7 +47,7 @@ const RoleRepair = {
       }
     }
     else { // creep not repairing => harvest more energy
-      harvestBehavior(creep);
+      harvestBehavior(creep, false, finder);
     }
   }
 };

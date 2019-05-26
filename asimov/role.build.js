@@ -26,7 +26,7 @@ const RoleBuild = {
       }
     }
     else {
-      harvestBehavior(creep);
+      harvestBehavior(creep, false, finder);
     }
   }
 };
