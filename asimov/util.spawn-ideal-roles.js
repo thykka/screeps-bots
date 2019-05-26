@@ -1,4 +1,4 @@
-const { energyRequirement } = require('settings');
+const { debugLevel, energyRequirement } = require('settings');
 const countCreeps = require('util.count-creeps');
 
 function getTotalEnergy(spawner) {
