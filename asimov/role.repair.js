@@ -82,15 +82,17 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     targets[creepIndex % targets.length] :
     targets[0];
 
-  // Save target ID to memory
-  creep.memory.target = selectedTarget && selectedTarget.id ? selectedTarget.id : false;
+  if(selectedTarget) {
+    // Save target ID to memory
+    creep.memory.target = selectedTarget.id ? selectedTarget.id : false;
 
-  if(debugLevel > 1) {
-    console.log(
-      '# ' + creep.name + ': new target: ' + selectedTarget.structureType +
-      ' (' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
-    );
-  }
+    if(debugLevel > 1) {
+      console.log(
+        '# ' + creep.name + ': new target: ' + selectedTarget.structureType +
+        ' (' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
+      );
+    }
+  } else { creep.memory.target = false; }
 
   return selectedTarget;
 }
