@@ -1,5 +1,5 @@
 module.exports = {
-  debugLevel: 0,
+  debugLevel: 1,
   body: {
     harvest: [WORK, WORK, CARRY, MOVE, MOVE],
     build: [WORK, CARRY, CARRY, MOVE, MOVE],
