@@ -1,4 +1,4 @@
-const { body } = require('settings');
+const { debugLevel, body } = require('settings');
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 
