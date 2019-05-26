@@ -38,6 +38,7 @@ const SPAWN = Game.spawns['Spawn1'];
 if(!SPAWN.memory.ideal) loadIdealAmounts(SPAWN, ROLES);
 
 module.exports.loop = function () {
+  const loopStart = Date.now();
   const cache = new Cache();
   const finder = new Finder(cache);
   const dead = cleanMemory();
@@ -73,5 +74,7 @@ module.exports.loop = function () {
 
     const { reads, writes } = finder.cache;
     console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
+
+    console.log('* main loop took ' + (Date.now() - loopStart) + 'ms');
   }
 };

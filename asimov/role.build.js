@@ -23,7 +23,6 @@ const RoleBuild = {
         creep,
         type: FIND_MY_CONSTRUCTION_SITES,
       });
-      // var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
       if(targets.length) {
         const creepTarget = targets[creepIndex % targets.length];
         if(creep.build(creepTarget) == ERR_NOT_IN_RANGE) {
