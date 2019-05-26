@@ -22,7 +22,7 @@ const errorCode = code => {
 };
 
 const spawnDrone = function(spawner, role, body, prefix) {
-  const name = (role.name[0] + role.name[1]) + (prefix ? '' : '-' + prefix);
+  const name = (role.name[0] + role.name[1]) + (prefix ? '-' + prefix : '');
   const result = spawner.spawnCreep(
     body,
     name, {
