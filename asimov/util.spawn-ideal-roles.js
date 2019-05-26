@@ -10,7 +10,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
   const totalEnergy = getTotalEnergy(spawner, finder);
   let spawned = false;
   if(
-    totalEnergy >= energyRequirement &&
+    totalEnergy.energy >= energyRequirement &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
@@ -27,6 +27,9 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
         break; // exit early to spawn just 1 at a time
       }
     }
+  }
+  if(debugLevel > 1) {
+    console.log('$ ' + totalEnergy.energy + '/' + totalEnergy.max);
   }
   return spawned;
 };

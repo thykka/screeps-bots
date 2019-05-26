@@ -16,8 +16,8 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
     source = sources[creepIndex] ? sources[creepIndex] : false;
     if(creep.pickup(source) == ERR_NOT_IN_RANGE){
       creep.moveTo(source.pos, { visualizePathStyle: {stroke: '#ffff00' }});
-      if(debugLevel > 0) {
-        console.log('- ' + creep.name + ' pickup dropped #1/' + sources.length);
+      if(debugLevel > 1) {
+        console.log('# ' + creep.name + ' pickup dropped #1/' + sources.length);
       }
     }
   }
@@ -31,7 +31,7 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
     }
 
     if(!source && debugLevel > 0) {
-      console.log('- ' + creep.name + ': no harvest target');
+      console.log('# ' + creep.name + ': no harvest target');
     }
 
     if(creep.harvest(source) == ERR_NOT_IN_RANGE) {

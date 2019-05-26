@@ -9,7 +9,6 @@ const towers = require('towers');
 
 
 const displayTotals =  debugLevel > 0 ? require('util.display-totals') : null;
-const getTotalEnergy = debugLevel > 1 ? require('util.total-energy') : null;
 
 const ROLES = {
   harvest: require('role.harvest'),
@@ -66,7 +65,7 @@ module.exports.loop = function () {
       if(SPAWN.spawning) {
         console.log('| spawning ' + SPAWN.spawning.name + '...');
       } else {
-        console.log('| waiting for power: ' + getTotalEnergy(SPAWN, finder));
+        console.log('| waiting');
       }
     }
 
