@@ -1,4 +1,4 @@
-const { body } = require('settings');
+const { bodyLevels } = require('settings');
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 
@@ -8,7 +8,7 @@ const RoleUpgrade = {
   memory: {
     upgrading: false,
   },
-  spawn: (spawner, prefix) => spawnDrone(spawner, RoleUpgrade, body[RoleUpgrade.name], prefix),
+  spawn: (spawner, prefix, level = 0) => spawnDrone(spawner, RoleUpgrade, bodyLevels[level][RoleUpgrade.name], prefix),
   run: (creep, creepIndex, finder) => {
     // No energy left for upgrading
     if(creep.memory.upgrading && creep.carry.energy == 0) {

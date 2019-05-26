@@ -23,7 +23,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
         )
       ) {
         const prefix = Date.now().toString(32).slice(-2);
-        const result = roles[role].spawn(spawner, prefix);
+        const result = roles[role].spawn(spawner, prefix, spawner.room.controller.level);
         if(!result) spawned = !spawned ? role : spawned + ', ' + role;
         break; // exit early to spawn just 1 at a time
       }

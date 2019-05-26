@@ -17,7 +17,7 @@ const ROLES = {
   upgrade: require('role.upgrade'),
 };
 
-function loadIdealAmounts(spawn, roles) {
+function storeIdealAmounts(spawn, roles) {
   spawn.memory.ideal = Object.values(roles).reduce((ideal, role) => {
     if(ideal.length > 0) ideal += ';';
     return ideal + role.name + ':' + role.idealCount;
@@ -35,46 +35,50 @@ function readIdealAmounts(spawn) {
 
 const SPAWN = Game.spawns['Spawn1'];
 
-if(!SPAWN.memory.ideal) loadIdealAmounts(SPAWN, ROLES);
+if(!SPAWN.memory.ideal) storeIdealAmounts(SPAWN, ROLES);
 
 module.exports.loop = function () {
-  const loopStart = Date.now();
-  const cache = new Cache();
-  const finder = new Finder(cache);
-  const dead = cleanMemory();
+  try {
+    const loopStart = Date.now();
+    const cache = new Cache();
+    const finder = new Finder(cache);
+    const dead = cleanMemory();
 
-  const ideals = readIdealAmounts(SPAWN);
+    const ideals = readIdealAmounts(SPAWN);
 
-  towers.run(SPAWN.room, Game.creeps, finder);
+    towers.run(SPAWN.room, Game.creeps, finder);
 
-  const newCreeps = spawnIdealRoleCreeps(SPAWN, ROLES, ideals, finder);
+    const newCreeps = spawnIdealRoleCreeps(SPAWN, ROLES, ideals, finder);
 
-  runCreepsWithRoles(Game.creeps, ROLES, finder);
+    runCreepsWithRoles(Game.creeps, ROLES, finder);
 
-  /*--- Logging ---*/
-  if(debugLevel > 0) {
-    if(dead) {
-      console.log('x ' + 'RIP ' + dead);
-    }
-    if(newCreeps) {
-      console.log('+ Welcome aboard, ' + newCreeps);
-    }
-    if(dead || newCreeps) {
-      console.log('= ' + displayTotals(ideals));
-    }
-  }
-  if(debugLevel > 1) {
-    if(!newCreeps) {
-      if(SPAWN.spawning) {
-        console.log('| spawning ' + SPAWN.spawning.name + '...');
-      } else {
-        console.log('| waiting');
+    /*--- Logging ---*/
+    if(debugLevel > 0) {
+      if(dead) {
+        console.log('x ' + 'RIP ' + dead);
+      }
+      if(newCreeps) {
+        console.log('+ Welcome aboard, ' + newCreeps);
+      }
+      if(dead || newCreeps) {
+        console.log('= ' + displayTotals(ideals));
       }
     }
+    if(debugLevel > 1) {
+      if(!newCreeps) {
+        if(SPAWN.spawning) {
+          console.log('| spawning ' + SPAWN.spawning.name + '...');
+        } else {
+          console.log('| waiting');
+        }
+      }
 
-    const { reads, writes } = finder.cache;
-    console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
+      const { reads, writes } = finder.cache;
+      console.log('_ cache: r' + reads + '/w' + writes + ' (' + ((reads/writes)*100 - 100).toFixed(0) + '% bonus)');
 
-    console.log('* main loop took ' + (Date.now() - loopStart) + 'ms');
+      console.log('* main loop took ' + (Date.now() - loopStart) + 'ms');
+    }
+  } catch(e) {
+    console.log('!!!', JSON.stringify(e));
   }
 };

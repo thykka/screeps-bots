@@ -1,4 +1,4 @@
-const { debugLevel, body } = require('settings');
+const { debugLevel, bodyLevels } = require('settings');
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 const RoleRepair = {
@@ -8,7 +8,7 @@ const RoleRepair = {
     repairing: false,
     target: false,
   },
-  spawn: (spawner, prefix) => spawnDrone(spawner, RoleRepair, body[RoleRepair.name], prefix),
+  spawn: (spawner, prefix, level = 0) => spawnDrone(spawner, RoleRepair, bodyLevels[level][RoleRepair.name], prefix),
   run: (creep, creepIndex, finder) => {
     // Switch to getting energy
     if(creep.memory.repairing && creep.carry.energy == 0) {
@@ -83,7 +83,7 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     targets[0];
 
   // Save target ID to memory
-  creep.memory.target = selectedTarget.id;
+  creep.memory.target = selectedTarget.id ? selectedTarget.id : false;
 
   if(debugLevel > 1) {
     console.log(

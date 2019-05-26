@@ -1,5 +1,3 @@
-const { debugLevel } = require('settings');
-
 module.exports = function getTotalEnergy(spawner, finder, includeMax = false) {
   const extensions = finder.find({
     room: spawner.room,
