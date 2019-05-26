@@ -1,3 +1,5 @@
+const { debugLevel } = require('settings');
+
 const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
 
   let source = false;
@@ -14,7 +16,9 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
     source = sources[creepIndex] ? sources[creepIndex] : false;
     if(creep.pickup(source) == ERR_NOT_IN_RANGE){
       creep.moveTo(source.pos, { visualizePathStyle: {stroke: '#ffff00' }});
-      console.log('- ' + creep.name + ' pickup dropped #1/' + sources.length);
+      if(debugLevel > 0) {
+        console.log('- ' + creep.name + ' pickup dropped #1/' + sources.length);
+      }
     }
   }
   if(!source) { // No dropped energy, find sources instead
@@ -26,7 +30,7 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
       })[0];
 
 
-    if(!source) {
+    if(!source && debugLevel > 0) {
       console.log('- ' + creep.name + ': no harvest target');
     }
 

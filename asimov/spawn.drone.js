@@ -1,3 +1,5 @@
+const { debugLevel } = require('settings');
+
 const errorCode = code => {
   switch(code) {
   case -1: return 'ERR_NOT_OWNER';
@@ -30,7 +32,9 @@ const spawnDrone = function(spawner, role, body, prefix) {
   if(result) {
     console.log('x spawn failed: ' + errorCode(result));
   } else {
-    console.log('+ spawning: ' + name);
+    if(debugLevel > 0) {
+      console.log('+ spawning: ' + name);
+    }
   }
   return result;
 };

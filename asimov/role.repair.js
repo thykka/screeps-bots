@@ -44,7 +44,9 @@ const RoleRepair = {
           console.log('- ' + creep.name + ' failed: ' + result + ', ' + JSON.stringify(Object.values(target)));
         }
       } else { // no targets whatsoever
-        console.log('- ' + creep.name + ': no repair target');
+        if(debugLevel > 0) {
+          console.log('- ' + creep.name + ': no repair target');
+        }
       }
     }
     else { // creep not repairing => harvest more energy
@@ -58,10 +60,7 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     creep,
     type: FIND_MY_STRUCTURES,
     filter: o => o.hits < o.hitsMax
-  })
-  //let targets = creep.room.find(FIND_MY_STRUCTURES)
-  //  .filter(o => o.hits < o.hitsMax)
-    .sort((a, b) => a.hits - b.hits);
+  }).sort((a, b) => a.hits - b.hits);
 
   if(targets.length === 0) {
     targets = finder.find({
@@ -76,18 +75,7 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
         o instanceof StructureContainer ||
         o instanceof StructureTerminal
       ) && o.hits < o.hitsMax )
-    })
-    // targets = creep.room.find(FIND_STRUCTURES)
-    //   .filter(o => ((
-    //     o instanceof StructureWall ||
-    //     o instanceof StructureRampart ||
-    //     o instanceof StructureTower ||
-    //     o instanceof StructureRoad ||
-    //     o instanceof StructureRampart ||
-    //     o instanceof StructureContainer ||
-    //     o instanceof StructureTerminal
-    //   ) && o.hits < o.hitsMax ))
-      .sort((a, b) => a.hits - b.hits);
+    }).sort((a, b) => a.hits - b.hits);
   }
 
 
@@ -95,12 +83,16 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     targets[creepIndex % targets.length] :
     targets[0];
 
-  console.log(
-    '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
-    ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
-  );
   // Save target ID to memory
   creep.memory.target = selectedTarget.id;
+
+  if(debugLevel > 0) {
+    console.log(
+      '- ' + creep.name + ': new target: ' + selectedTarget.structureType +
+      ' (#' + (creepIndex % targets.length) + '/' + (targets.length - 1) + ')'
+    );
+  }
+
   return selectedTarget;
 }
 

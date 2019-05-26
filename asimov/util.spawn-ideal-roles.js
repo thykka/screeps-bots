@@ -1,3 +1,4 @@
+const { energyRequirement } = require('settings');
 const countCreeps = require('util.count-creeps');
 
 /**
@@ -6,7 +7,7 @@ const countCreeps = require('util.count-creeps');
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
   if(
-    spawner.energy >= 300 &&
+    spawner.energy >= energyRequirement &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);

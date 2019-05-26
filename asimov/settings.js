@@ -1,9 +1,10 @@
 module.exports = {
-  DEBUG_LEVEL: 0,
+  debugLevel: 0,
   body: {
-    harvest: [WORK, WORK, WORK, CARRY, MOVE],
-    build: [WORK, CARRY, CARRY, MOVE, MOVE],
-    upgrade: [WORK, CARRY, CARRY, MOVE, MOVE],
-    repair: [WORK, CARRY, CARRY, MOVE, MOVE],
+    harvest: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
+    build: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+    upgrade: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+    repair: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
   },
+  energyRequirement: 600,
 };

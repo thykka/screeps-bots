@@ -1,4 +1,4 @@
-const _ = require('lodash');
+// const _ = require('lodash');
 
 /**
  * Determines the role of each creep and attempts to run the corresponding role loop

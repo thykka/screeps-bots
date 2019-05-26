@@ -1,5 +1,5 @@
 class Cache {
-  constructor(room) {
+  constructor() {
     this.reads = 0;
     this.writes = 0;
     this._cache = {};
@@ -14,5 +14,13 @@ class Cache {
     return this._cache[room.name][type];
   }
 };
+
+class FindCache extends Cache {
+  constructor() {
+    super(this);
+    this.key = 'find';
+    this.fn = room => room.find(type);
+  }
+}
 
 module.exports = Cache;

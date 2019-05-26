@@ -1,4 +1,4 @@
-const { DEBUG_LEVEL } = require('settings');
+const { debugLevel } = require('settings');
 
 const Cache = require('util.cache');
 const Finder = require('util.finder');
@@ -42,7 +42,7 @@ module.exports.loop = function () {
   runCreepsWithRoles(Game.creeps, ROLES, finder);
   towers.run(SPAWN.room, finder);
 
-  if(DEBUG_LEVEL > 0) {
+  if(debugLevel > 0) {
     console.log(
       '> cache stats: w' +
       finder.cache.writes +
