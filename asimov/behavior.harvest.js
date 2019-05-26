@@ -14,6 +14,7 @@ const harvestBehavior = function(creep, byPath = false) {
     let dropped = creep.room.find(FIND_DROPPED_RESOURCES, {
       filter: (o) => o.resourceType === RESOURCE_POWER
     });
+    console.log('dropped results: ', JSON.stringify(dropped));
     if(dropped.length && creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE){
       console.log('- ' + creep.name + ' pickup dropped #1/' + dropped.length);
       creep.moveTo(dropped[0].pos, {visualizePathStyle: {stroke: '#ffff00'}});
