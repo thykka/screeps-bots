@@ -7,7 +7,6 @@ function getTotalEnergy(spawner) {
   }).reduce((acc, o) => {
     return o.energy + acc;
   }, 0);
-  console.log('e spawn:' + spawner.energy + ' extensions:' + extensionEnergy);
   return extensionEnergy + spawner.energy;
 }
 
