@@ -5,6 +5,7 @@ const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
+const getTotalEnergy = require('util.total-energy');
 const towers = require('towers');
 
 const ROLES = {
@@ -63,7 +64,7 @@ module.exports.loop = function () {
       if(SPAWN.spawning) {
         console.log('| spawning ' + SPAWN.spawning.name + '...');
       } else {
-        console.log('| waiting for power: ' + totalEnergy);
+        console.log('| waiting for power: ' + getTotalEnergy(SPAWN, finder));
       }
     }
 
