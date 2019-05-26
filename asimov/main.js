@@ -79,6 +79,7 @@ module.exports.loop = function () {
       console.log('* main loop took ' + (Date.now() - loopStart) + 'ms');
     }
   } catch(e) {
-    console.log('!!!', JSON.stringify(e));
+    console.log('!!!');
+    console.log(e);
   }
 };
