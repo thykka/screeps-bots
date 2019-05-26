@@ -15,7 +15,7 @@ const harvestBehavior = function(creep, byPath = false) {
       filter: (o) => o.resourceType === RESOURCE_POWER
     });
     if(dropped.length && creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE){
-      creep.moveTo(dropped[0].pos);
+      creep.moveTo(dropped[0].pos, {visualizePathStyle: {stroke: '#ffff00'}});
     }
   } catch(e) {
     console.log('drop harvest fail', e);
