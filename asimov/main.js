@@ -1,3 +1,4 @@
+const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
@@ -33,6 +34,6 @@ module.exports.loop = function () {
   const SPAWN = Game.spawns['Spawn1'];
   cleanMemory();
   spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
-  runCreepsWithRoles(Game.creeps, ROLES);
-  towers.run(SPAWN.room);
+  runCreepsWithRoles(Game.creeps, ROLES, Finder);
+  towers.run(SPAWN.room, Finder);
 };

@@ -1,30 +1,23 @@
-const Finder = require('util.finder');
-
-const harvestBehavior = function(creep, byPath = false) {
+const harvestBehavior = function(creep, byPath = false, finder) {
 
   let source = false;
   let sources = [];
 
   if(!byPath) {
-    sources = Finder({
+    sources = finder({
       creep,
       type: FIND_DROPPED_RESOURCES,
       filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
     });
-    /*
-    sources = creep.room.find(FIND_DROPPED_RESOURCES, {
-      filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
-    });
-    */
   }
 
   if(sources.length === 0) {
     source = byPath ?
       creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
-      Finder({
+      finder({
         creep,
         type: FIND_SOURCES
-      })[0]; //creep.room.find(FIND_SOURCES)[0];
+      })[0];
   }
 
   if(!source && !sources.length) {

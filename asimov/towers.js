@@ -1,5 +1,5 @@
 const Towers = {
-  run: function run(room) {
+  run: function run(room, finder) {
     const towers = room.find(FIND_MY_STRUCTURES, {
       filter: { structureType: STRUCTURE_TOWER }
     });

@@ -8,7 +8,7 @@ const RoleHarvest = {
     working: false,
   },
   spawn: (spawner, prefix) => spawnDrone(spawner, RoleHarvest, [WORK, WORK, CARRY, MOVE], prefix),
-  run: (creep) => {
+  run: (creep, creepIndex, finder) => {
     // bringing energy to structure, but no energy left
     if(creep.memory.working && creep.carry.energy === 0) {
       creep.memory.working = false;
@@ -41,7 +41,7 @@ const RoleHarvest = {
       }
     }
     // get more energy
-    else { harvestBehavior(creep, true); }
+    else { harvestBehavior(creep, true, finder); }
   }
 };
 

@@ -8,7 +8,7 @@ const RoleBuild = {
     building: false,
   },
   spawn: (spawner, prefix) => spawnDrone(spawner, RoleBuild, [WORK, CARRY, CARRY, MOVE], prefix),
-  run: (creep, creepIndex) => {
+  run: (creep, creepIndex, finder) => {
     if(creep.memory.building && creep.carry.energy == 0) {
       creep.memory.building = false;
     }
