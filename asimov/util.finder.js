@@ -8,7 +8,7 @@ const Cache = {
     if(typeof this[room.name] === 'undefined') this[room.name] = {};
     if(force || typeof this[room.name][type] === 'undefined') {
       this[room.name][type] = room.find(type);
-    }
+    } else { console.log('Cache is working!'); }
     return this[room.name][type];
   }
 };
