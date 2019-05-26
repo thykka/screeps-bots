@@ -44,6 +44,6 @@ module.exports.loop = function () {
     '> cache stats: w' +
     finder.cache.writes +
     '/r' + finder.cache.reads +
-    ' (' + (1 - (finder.cache.writes * 100 / finder.cache.reads)).toFixed(2) + '% utilization)'
+    ' (' + (100 - (finder.cache.writes * 100 / finder.cache.reads)).toFixed(0) + '% utilization)'
   );
 };
