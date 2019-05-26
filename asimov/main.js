@@ -13,8 +13,8 @@ const displayTotals =  debugLevel > 0 ? require('util.display-totals') : null;
 const ROLES = {
   harvest: require('role.harvest'),
   repair:  require('role.repair'),
-  upgrade: require('role.upgrade'),
   build:   require('role.build'),
+  upgrade: require('role.upgrade'),
 };
 
 function loadIdealAmounts(spawn, roles) {
