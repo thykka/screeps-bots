@@ -6,6 +6,7 @@ const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
 // const getTotalEnergy = require('util.total-energy');
+const countCreeps = require('util.count-creeps');
 const displayTotals = require('util.display-totals');
 const towers = require('towers');
 
