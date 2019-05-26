@@ -11,9 +11,11 @@ const harvestBehavior = function(creep, byPath = false) {
   */
 
   try {
-    const dropped = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
-    if(dropped && creep.pickup(dropped) == ERR_NOT_IN_RANGE){
-      creep.moveTo(dropped.pos);
+    let dropped = creep.room.find(FIND_DROPPED_RESOURCES, {
+      filter: (o) => o.resourceType === RESOURCE_POWER
+    });
+    if(dropped.length && creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE){
+      creep.moveTo(dropped[0].pos);
     }
   } catch(e) {
     console.log('drop harvest fail', e);
