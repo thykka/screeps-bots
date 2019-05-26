@@ -5,7 +5,7 @@ module.exports = function displayTotals(ideals) {
     .sort(([a], [b]) => a > b)
     .reduce((acc, [totalName, total], index, arr)=> {
       return acc + (
-        totalName[0] + totalName[totalName.length-1] + ':' +
+        totalName[0] + totalName[1] + ':' +
         total + '/' + ideals[totalName] +
         (index < (arr.length - 1) ? ' ' : '')
       );
