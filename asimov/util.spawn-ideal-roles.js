@@ -16,11 +16,8 @@ function getTotalEnergy(spawner) {
  * @param {Object} [roles] - A hash of roles to spawn from
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
-  console.log(
-    'total energy: ' + getTotalEnergy(spawner)
-  );
   if(
-    spawner.energy >= 300 &&
+    spawner.energy >= getTotalEnergy(spawner) &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
