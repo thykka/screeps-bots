@@ -38,7 +38,7 @@ module.exports.loop = function () {
   const finder = new Finder(cache);
   const SPAWN = Game.spawns['Spawn1'];
   cleanMemory();
-  spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
+  spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN), finder);
   runCreepsWithRoles(Game.creeps, ROLES, finder);
   towers.run(SPAWN.room, finder);
 

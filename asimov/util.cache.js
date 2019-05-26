@@ -15,6 +15,7 @@ class Cache {
   }
 };
 
+/* TODO: separate room finding into own class
 class FindCache extends Cache {
   constructor() {
     super(this);
@@ -22,5 +23,6 @@ class FindCache extends Cache {
     this.fn = room => room.find(type);
   }
 }
+*/
 
 module.exports = Cache;
