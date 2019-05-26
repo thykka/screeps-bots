@@ -4,11 +4,15 @@ const Cache = {
   [thisRoom.name]: {
 
   },
+  reads: 0,
+  writes: 0,
   read: function readCache (room, type, force = false) {
     if(typeof this[room.name] === 'undefined') this[room.name] = {};
     if(force || typeof this[room.name][type] === 'undefined') {
+      this.writes++;
       this[room.name][type] = room.find(type);
     }
+    this.reads++;
     return this[room.name][type];
   }
 };
