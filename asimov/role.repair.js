@@ -83,7 +83,7 @@ function findRepairTarget(creep, creepIndex = 0, finder) {
     targets[0];
 
   // Save target ID to memory
-  creep.memory.target = selectedTarget.id ? selectedTarget.id : false;
+  creep.memory.target = selectedTarget && selectedTarget.id ? selectedTarget.id : false;
 
   if(debugLevel > 1) {
     console.log(
