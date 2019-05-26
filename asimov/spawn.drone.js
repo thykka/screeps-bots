@@ -22,7 +22,7 @@ const errorCode = code => {
 };
 
 const spawnDrone = function(spawner, role, body, prefix) {
-  const name = role.name + prefix;
+  const name = (role.name[0] + role.name[1]) + (prefix ? '' : '-' + prefix);
   const result = spawner.spawnCreep(
     body,
     name, {
@@ -30,7 +30,7 @@ const spawnDrone = function(spawner, role, body, prefix) {
     }
   );
   if(result) {
-    console.log('x spawn failed: ' + errorCode(result));
+    console.log('x spawn ' + name + ' failed: ' + errorCode(result));
   } else {
     if(debugLevel > 0) {
       console.log('+ spawning: ' + name);

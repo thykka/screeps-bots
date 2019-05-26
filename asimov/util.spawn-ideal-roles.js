@@ -22,8 +22,9 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
           totals[role] < ideals[role]         // less than the ideal count of creeps
         )
       ) {
-        roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
-        spawned = !spawned ? role : spawned + ', ' + role;
+        const prefix = Date.now().toString(32).slice(-2);
+        const result = roles[role].spawn(spawner, prefix);
+        if(!result) spawned = !spawned ? role : spawned + ', ' + role;
         break; // exit early to spawn just 1 at a time
       }
     }
