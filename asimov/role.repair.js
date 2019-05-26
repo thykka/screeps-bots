@@ -64,7 +64,9 @@ function findRepairTarget(creep, creepIndex = 0) {
         o instanceof StructureRampart ||
         o instanceof StructureTower ||
         o instanceof StructureRoad ||
-        o instanceof StructureRampart
+        o instanceof StructureRampart ||
+        o instanceof StructureContainer ||
+        o instanceof StructureTerminal
       ) && o.hits < o.hitsMax ))
       .sort((a, b) => a.hits - b.hits);
   }
