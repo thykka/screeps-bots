@@ -2,25 +2,14 @@ const harvestBehavior = function(creep, byPath = false) {
 
   let source = false;
 
-  /* Pick up dropped energy. TODO: not working, check how to pick up
-  if(!byPath) {
-    source = creep.room.find(FIND_DROPPED_RESOURCES, {
-      filter: o => {return o instanceof Energy; }
-    })[0];
-  }
-  */
+  source = creep.room.find(FIND_DROPPED_RESOURCES, {
+    filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
+  });
 
-  try {
-    let dropped = creep.room.find(FIND_DROPPED_RESOURCES, {
-      filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
-    });
-    console.log('dropped results: ', JSON.stringify(dropped));
-    if(dropped.length && creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE){
-      console.log('- ' + creep.name + ' pickup dropped #1/' + dropped.length);
-      creep.moveTo(dropped[0].pos, {visualizePathStyle: {stroke: '#ffff00'}});
-    }
-  } catch(e) {
-    console.log('drop harvest fail', e);
+  if(source.length && creep.pickup(source[0]) == ERR_NOT_IN_RANGE){
+    creep.moveTo(source[0].pos, { visualizePathStyle: {stroke: '#ffff00' }});
+    console.log('- ' + creep.name + ' pickup dropped #1/' + source.length);
+    return;
   }
 
   if(!source) {
