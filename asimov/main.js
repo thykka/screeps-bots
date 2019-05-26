@@ -43,11 +43,7 @@ module.exports.loop = function () {
   towers.run(SPAWN.room, finder);
 
   if(debugLevel > 0) {
-    console.log(
-      '> cache stats: w' +
-      finder.cache.writes +
-      '/r' + (finder.cache.reads - finder.cache.writes) +
-      ' (' + (100 - (finder.cache.writes * 100 / (finder.cache.reads - finder.cache.writes))).toFixed(0) + '% utilization)'
-    );
+    const { reads, writes } = finder.cache;
+    console.log('_ cache: w' + writes + '/r' + reads + ' (' + ((writes/reads)*100).toFixed(0) + '%)');
   }
 };
