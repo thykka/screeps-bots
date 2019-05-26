@@ -33,13 +33,13 @@ function readIdealAmounts(spawn) {
   }
 }
 
+const SPAWN = Game.spawns['Spawn1'];
 
-if(!spawn.memory.ideal) loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
+if(!SPAWN.memory.ideal) loadIdealAmounts(SPAWN, ROLES);
 
 module.exports.loop = function () {
   const cache = new Cache();
   const finder = new Finder(cache);
-  const SPAWN = Game.spawns['Spawn1'];
   const dead = cleanMemory();
 
   const ideals = readIdealAmounts(SPAWN);
