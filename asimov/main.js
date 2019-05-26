@@ -1,3 +1,5 @@
+const { DEBUG_LEVEL } = require('settings');
+
 const Cache = require('util.cache');
 const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
@@ -40,10 +42,12 @@ module.exports.loop = function () {
   runCreepsWithRoles(Game.creeps, ROLES, finder);
   towers.run(SPAWN.room, finder);
 
-  console.log(
-    '> cache stats: w' +
-    finder.cache.writes +
-    '/r' + finder.cache.reads +
-    ' (' + (100 - (finder.cache.writes * 100 / finder.cache.reads)).toFixed(0) + '% utilization)'
-  );
+  if(DEBUG_LEVEL > 0) {
+    console.log(
+      '> cache stats: w' +
+      finder.cache.writes +
+      '/r' + finder.cache.reads +
+      ' (' + (100 - (finder.cache.writes * 100 / finder.cache.reads)).toFixed(0) + '% utilization)'
+    );
+  }
 };
