@@ -22,13 +22,13 @@ const harvestBehavior = function(creep, creepIndex, byPath = false, finder) {
     }
   }
   if(!source) { // No dropped energy, find sources instead
-    source = byPath ?
-      creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
-      finder.find({
-        creep,
-        type: FIND_SOURCES
-      })[0];
-
+    if(byPath) {
+      sources = _.sortBy(finder.find({ creep, type: FIND_SOURCES }), s => creep.pos.getRangeTo(s));
+      source = sources[0];
+    } else {
+      sources = finder.find({ creep, type: FIND_SOURCES_ACTIVE });
+      source = sources[creepIndex % sources.length];
+    }
 
     if(!source && debugLevel > 0) {
       console.log('- ' + creep.name + ': no harvest target');
