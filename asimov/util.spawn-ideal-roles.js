@@ -10,7 +10,6 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
   const rcl = spawner.room.controller.level;
   const totalEnergy = getTotalEnergy(spawner, finder, debugLevel > 1);
   const energyRequirement = energyLevels[rcl];
-  if(debugLevel > 1) console.log('i rcl:' + rcl + ' nrg req: '+ energyRequirement);
   let spawned = false;
   if(
     totalEnergy.energy >= energyRequirement &&
