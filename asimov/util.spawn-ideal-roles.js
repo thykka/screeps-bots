@@ -1,4 +1,4 @@
-const { debugLevel, energyRequirement } = require('settings');
+const { debugLevel, energyLevels } = require('settings');
 const countCreeps = require('util.count-creeps');
 const getTotalEnergy = require('util.total-energy');
 
@@ -7,14 +7,17 @@ const getTotalEnergy = require('util.total-energy');
  * @param {Object} [roles] - A hash of roles to spawn from
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
+  const rcl = spawner.room.controller.level;
+  if(debugLevel > 1) console.log('i rcl:' + rcl);
   const totalEnergy = getTotalEnergy(spawner, finder, debugLevel > 1);
+  const energyRequirement = energyLevels(rcl);
   let spawned = false;
   if(
     totalEnergy.energy >= energyRequirement &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    for(const role in _.sortBy(roles, role => totals[role.name])) {
+    for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
         typeof ideals[role] === 'number' && (      // an ideal creep count exists, and
@@ -23,7 +26,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals, finder) {
         )
       ) {
         const prefix = Date.now().toString(32).slice(-2);
-        const result = roles[role].spawn(spawner, prefix, spawner.room.controller.level);
+        const result = roles[role].spawn(spawner, prefix, rcl);
         if(!result) spawned = !spawned ? role : spawned + ', ' + role;
         break; // exit early to spawn just 1 at a time
       }
