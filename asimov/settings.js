@@ -1,3 +1,9 @@
+/*  TODO: figure out appropriate body level
+const bodyLevel = function getBodyLevel(requirement) {
+
+};
+*/
+
 module.exports = {
   debugLevel: 1,
   body: {
