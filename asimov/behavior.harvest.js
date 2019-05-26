@@ -10,6 +10,15 @@ const harvestBehavior = function(creep, byPath = false) {
   }
   */
 
+  try {
+    const dropped = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
+    if(dropped && creep.pickup(dropped) == ERR_NOT_IN_RANGE){
+      creep.moveTo(dropped.pos);
+    }
+  } catch(e) {
+    console.log('drop harvest fail', e);
+  }
+
   if(!source) {
     source = byPath ?
       creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE) :
