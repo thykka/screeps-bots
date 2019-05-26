@@ -5,8 +5,11 @@ const Finder = require('util.finder');
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
-const getTotalEnergy = require('util.total-energy');
 const towers = require('towers');
+
+
+const displayTotals =  debugLevel > 0 ? require('util.display-totals') : null;
+const getTotalEnergy = debugLevel > 1 ? require('util.total-energy') : null;
 
 const ROLES = {
   harvest: require('role.harvest'),
@@ -51,7 +54,6 @@ module.exports.loop = function () {
   /*--- Logging ---*/
   if(debugLevel > 0) {
     if(dead) {
-      const displayTotals = require('util.display-totals');
       console.log('x ' + 'RIP ' + dead);
       console.log('= ' + displayTotals(ideals));
     }
