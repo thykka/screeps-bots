@@ -41,7 +41,7 @@ if(!SPAWN.memory.ideal) storeIdealAmounts(SPAWN, ROLES);
 module.exports.loop = function () {
   try {
     if(debugLevel > 0) {
-      console.log('');
+      console.log('\n');
     }
     if(debugLevel > 1) {
       console.log('* main loop #' + Game.time);
