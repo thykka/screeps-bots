@@ -17,7 +17,7 @@ function getTotalEnergy(spawner) {
  */
 module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
   if(
-    spawner.energy >= getTotalEnergy(spawner) &&
+    getTotalEnergy(spawner) >= energyRequirement &&
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
