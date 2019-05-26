@@ -6,9 +6,16 @@ const harvestBehavior = function(creep, byPath = false) {
   let sources = [];
 
   if(!byPath) {
+    sources = Finder({
+      creep,
+      type: FIND_DROPPED_RESOURCES,
+      filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
+    });
+    /*
     sources = creep.room.find(FIND_DROPPED_RESOURCES, {
       filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
     });
+    */
   }
 
   if(sources.length === 0) {
