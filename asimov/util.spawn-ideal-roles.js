@@ -10,6 +10,17 @@ function getTotalEnergy(spawner) {
   return extensionEnergy + spawner.energy;
 }
 
+function displayTotals(totals) {
+  console.log(
+    Object.entries(totals).reduce((acc, [totalName, total], index, arr)=> {
+      return acc + (
+        totalName[0] + totalName[totalName.length-1] + ': ' + total +
+        index < (arr.length - 1) ? ' ' : ''
+      );
+    }, '% ')
+  );
+}
+
 /**
  * Spawns the ideal amount of creeps for each role, if
  * @param {Object} [roles] - A hash of roles to spawn from
@@ -21,12 +32,7 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
     !spawner.spawning
   ) {
     const totals = countCreeps(Game.creeps);
-    console.log('- ' +
-      Object.entries(ideals).reduce((log, [roleName, ideal]) => {
-        if(log.length > 0) log += ', ';
-        return log + roleName + ': ' + totals[roleName] + '/' + ideal;
-      }, '')
-    );
+    if(debugLevel > 0) displayTotals(totals);
     for(const role in roles) {
       if(
         typeof roles[role].spawn === 'function' &&           // When a role has a spawning method, and
@@ -36,14 +42,15 @@ module.exports = function spawnIdealRoleCreeps(spawner, roles, ideals) {
         )
       ) {
         roles[role].spawn(spawner, '_' + Date.now().toString(32).slice(-2));
+        if(debugLevel > 0) console.log('+ spawned ' + role);
         break; // exit early to spawn just 1 at a time
       }
     }
-  } else if(debugLevel > 0) {
+  } else if(debugLevel > 1) {
     if(spawner.spawning) {
-      console.log('- spawning...');
+      console.log('  spawning...');
     } else {
-      console.log('- waiting to spawn, power: ' + totalEnergy);
+      console.log('  waiting to spawn, power: ' + totalEnergy);
     }
   }
 };
