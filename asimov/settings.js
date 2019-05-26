@@ -1,3 +1,5 @@
+const debugLevel = 1;
+
 const bodyLevels = {
   1: {
     harvest: [WORK, CARRY, MOVE],
@@ -29,9 +31,7 @@ energyLevels[0] = energyLevels[1];
 energyLevels[4] = energyLevels[3];
 
 module.exports = {
-  debugLevel: 1,
-  body: bodyLevels[1],
-  energyRequirement: energyLevels[1],
+  debugLevel,
   bodyLevels,
   energyLevels,
 };
