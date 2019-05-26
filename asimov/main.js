@@ -1,7 +1,5 @@
 const Cache = require('util.cache');
-const cache = new Cache();
 const Finder = require('util.finder');
-const finder = new Finder(cache);
 const cleanMemory = require('util.clean-memory');
 const spawnIdealRoleCreeps = require('util.spawn-ideal-roles');
 const runCreepsWithRoles = require('util.run-roles');
@@ -34,6 +32,8 @@ function readIdealAmounts(spawn) {
 loadIdealAmounts(Game.spawns['Spawn1'], ROLES);
 
 module.exports.loop = function () {
+  const cache = new Cache();
+  const finder = new Finder(cache);
   const SPAWN = Game.spawns['Spawn1'];
   cleanMemory();
   spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
