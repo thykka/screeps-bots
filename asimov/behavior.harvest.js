@@ -12,7 +12,7 @@ const harvestBehavior = function(creep, byPath = false) {
 
   try {
     let dropped = creep.room.find(FIND_DROPPED_RESOURCES, {
-      filter: (o) => o.resourceType === RESOURCE_POWER
+      filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
     });
     console.log('dropped results: ', JSON.stringify(dropped));
     if(dropped.length && creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE){
