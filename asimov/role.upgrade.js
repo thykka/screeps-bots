@@ -18,7 +18,7 @@ const RoleUpgrade = {
       creep.memory.upgrading = true;
     }
     if(!creep.memory.upgrading) {
-      harvestBehavior(creep, false, finder);
+      harvestBehavior(creep, creepIndex, false, finder);
     } else {
       if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
         creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#0000ff'}});

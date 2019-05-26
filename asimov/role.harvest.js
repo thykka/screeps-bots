@@ -41,7 +41,7 @@ const RoleHarvest = {
       }
     }
     // get more energy
-    else { harvestBehavior(creep, true, finder); }
+    else { harvestBehavior(creep, creepIndex, true, finder); }
   }
 };
 

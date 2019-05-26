@@ -47,7 +47,7 @@ const RoleRepair = {
       }
     }
     else { // creep not repairing => harvest more energy
-      harvestBehavior(creep, false, finder);
+      harvestBehavior(creep, creepIndex, false, finder);
     }
   }
 };
