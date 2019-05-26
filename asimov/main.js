@@ -1,3 +1,4 @@
+console.log('! --- start main');
 const { debugLevel } = require('settings');
 
 const Cache = require('util.cache');
@@ -39,6 +40,12 @@ if(!SPAWN.memory.ideal) storeIdealAmounts(SPAWN, ROLES);
 
 module.exports.loop = function () {
   try {
+    if(debugLevel > 0) {
+      console.log('');
+    }
+    if(debugLevel > 1) {
+      console.log('* main loop #' + Game.time);
+    }
     const loopStart = Date.now();
     const cache = new Cache();
     const finder = new Finder(cache);
