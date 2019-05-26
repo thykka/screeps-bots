@@ -36,5 +36,5 @@ module.exports.loop = function () {
   spawnIdealRoleCreeps(SPAWN, ROLES, readIdealAmounts(SPAWN));
   runCreepsWithRoles(Game.creeps, ROLES, Finder);
   towers.run(SPAWN.room, Finder);
-  console.log('> cache stats: w' +Finder.writes + '/r' + Finder.reads + ' (' + (Finder.writes / Finder.reads).toFixed(2) + ')');
+  console.log('> cache stats: w' + Finder.cache.writes + '/r' + Finder.cache.reads + ' (' + (Finder.cache.writes / Finder.cache.reads).toFixed(2) + ')');
 };

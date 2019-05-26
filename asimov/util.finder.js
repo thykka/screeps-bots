@@ -79,4 +79,6 @@ const Finder = function Finder({
   return [];
 };
 
+Finder.prototype.cache = Cache;
+
 module.exports = Finder;
