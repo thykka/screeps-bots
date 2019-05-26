@@ -1,3 +1,4 @@
+const { body } = require('settings');
 const spawnDrone = require('spawn.drone');
 const harvestBehavior = require('behavior.harvest');
 
@@ -7,7 +8,7 @@ const RoleHarvest = {
   memory: {
     working: false,
   },
-  spawn: (spawner, prefix) => spawnDrone(spawner, RoleHarvest, [WORK, WORK, CARRY, MOVE], prefix),
+  spawn: (spawner, prefix) => spawnDrone(spawner, RoleHarvest, body[RoleHarvest.name], prefix),
   run: (creep, creepIndex, finder) => {
     // bringing energy to structure, but no energy left
     if(creep.memory.working && creep.carry.energy === 0) {
