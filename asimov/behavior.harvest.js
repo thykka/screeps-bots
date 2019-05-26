@@ -1,10 +1,13 @@
 const harvestBehavior = function(creep, byPath = false) {
 
   let source = false;
+  let sources = [];
 
-  sources = creep.room.find(FIND_DROPPED_RESOURCES, {
-    filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
-  });
+  if(!byPath) {
+    sources = creep.room.find(FIND_DROPPED_RESOURCES, {
+      filter: (o) => o.resourceType === RESOURCE_POWER || o instanceof Energy
+    });
+  }
 
   if(sources.length === 0) {
     source = byPath ?
