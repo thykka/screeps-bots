@@ -2,12 +2,13 @@ const { energyRequirement } = require('settings');
 const countCreeps = require('util.count-creeps');
 
 function getTotalEnergy(spawner) {
-  const spawnerEnergy = spawner.room.find(FIND_MY_STRUCTURES, {
-    filter: o => o.structureType instanceof StructureExtension
+  const extensionEnergy = spawner.room.find(FIND_MY_STRUCTURES, {
+    filter: o => o instanceof StructureExtension
   }).reduce((acc, o) => {
     return o.energy + acc;
   }, 0);
-  return spawnerEnergy + spawner.energy;
+  console.log('e spawn:' + spawner.energy + ' extensions:' + extensionEnergy);
+  return extensionEnergy + spawner.energy;
 }
 
 /**
