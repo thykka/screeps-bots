@@ -19,10 +19,13 @@ const bodyLevels = {
   },
 };
 bodyLevels[0] = bodyLevels[1];
+bodyLevels[4] = bodyLevels[3];
 const energyLevels = {
   0: 300,
   1: 300,
-  2: 450,
+  2: 375,
+  3: 450,
+  4: 450,
 };
 
 module.exports = {
