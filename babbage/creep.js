@@ -9,7 +9,7 @@ Creep.prototype.returnHome = function returnHome() {
   }
   if(target) {
     this.moveTo(target, {
-      visualizePathStyle: { stroke: '#ffff00' }
+      visualizePathStyle: { stroke: '#000000' }
     });
   } else {
     this.say(':(');
@@ -21,7 +21,9 @@ Creep.prototype.getEnergy = function getEnergy() {
   if(source) {
     const result = this.harvest(source);
     if(result === ERR_NOT_IN_RANGE) {
-      this.moveTo(source);
+      this.moveTo(source, {
+        visualizePathStyle: { stroke: '#888800' }
+      });
     }
   } else {
     this.say(':/');
@@ -29,7 +31,15 @@ Creep.prototype.getEnergy = function getEnergy() {
 };
 
 Creep.prototype.refill = function getEnergy() {
-
+  let target = this.pos.findClosestByPath(FIND_MY_STRUCTURES);
+  if(target) {
+    const result = this.transfer(target, RESOURCE_ENERGY);
+    if(result === ERR_NOT_IN_RANGE) {
+      this.moveTo(target, {
+        visualizePathStyle: {stroke: '#00cccc'}
+      });
+    }
+  }
 };
 
 Creep.prototype.wander = function wander() {
@@ -76,7 +86,6 @@ module.exports.loop = function loopCreep(opts) {
 
 
     // ---- Run chosen task ----
-
     creep.memory.task = task;
     switch(task) {
       case 'HOM':
@@ -91,5 +100,6 @@ module.exports.loop = function loopCreep(opts) {
       default:
         creep.wander();
     }
+    if(Game.time % 10 === 0) { creep.say(task); }
   }
 };
