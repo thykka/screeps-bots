@@ -57,7 +57,7 @@ module.exports.loop = function loopSpawn(opts) {
     if(!spawn.spawning) {
       // spawn.renewCreep(creep)
       const adjacent = spawn.getAdjacentCreeps();
-      if(adjacent && adjacent.ticksToLive < 1200) {
+      if(adjacent[0] && adjacent[0].ticksToLive < 1200) {
         const result = spawn.renewCreep(adjacent[0]);
         if(!result) {
           adjacent[0].say('+');

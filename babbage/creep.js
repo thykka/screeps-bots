@@ -22,20 +22,23 @@ Creep.prototype.wander = function wander() {
   if(y < 1) { y = 1; } else if(y > 48) { y = 48; }
 
   this.moveTo( x, y, { visualizePathStyle: { stroke: '#000000' } });
-  this.say('…');
+  this.say('-');
 };
 
 module.exports.loop = function loopCreep(opts) {
-  const returnThreshold = 1000;
+  const returnThreshold = 300;
 
-  _.forEach(_.filter(Game.creeps, creep => creep.my), (creep => {
+  const myCreeps = _.filter(Game.creeps, c => c.my);
+
+  for(const creepName in myCreeps) {
+    const creep = myCreeps[creepName];
 
     if(creep.ticksToLive < returnThreshold) { // creep about to expire
       console.log(creep.name + ' expiring: ' + creep.ticksToLive);
       creep.returnHome();
-    } else {
-      creep.wander();
+      break;
     }
 
-  }));
+    creep.wander();
+  }
 };
