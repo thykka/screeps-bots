@@ -22,5 +22,5 @@ module.exports.loop = function mainLoop() {
     } catch(e) { console.log(e); }
   });
 
-  console.log(cache);
+  console.log(JSON.stringify(cache));
 };
