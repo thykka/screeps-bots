@@ -29,7 +29,7 @@ module.exports.loop = function loopSpawn(opts) {
       filter: o => o instanceof StructureExtension
     });
 
-    const energy = spawn.getRoomEnergy;
+    const energy = spawn.getRoomEnergy(roomExtensions);
     const minEnergyToSpawn = 300;
 
     if(energy > minEnergyToSpawn && _.size(Game.creeps) === 0) {
