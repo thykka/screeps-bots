@@ -13,13 +13,13 @@ module.exports.loop = function loopCreep(opts) {
 
     // ---- Choose task ----
 
-    // bringing energy to structure but none left
     if(task !== 'NRG' && creep.carry.energy === 0) {
+      // no energy in carry.. find more
       task = 'NRG';
       target = creep.findEnergy();
     }
-    // carry full, transfer energy to buildings
     if(task !== 'RFL' && creep.carry.energy === creep.carryCapacity) {
+      // carry full of energy.. unload to spawner or upgrade room
       target = creep.findRefill();
       if(target) {
         task = 'RFL';
@@ -37,16 +37,16 @@ module.exports.loop = function loopCreep(opts) {
       case 'HOM':
         creep.returnHome(spawn);
         break;
+      case 'NRG':
+        if(!target) target = creep.findEnergy();
+        creep.getEnergy(target);
+        break;
       case 'RFL':
         if(!target) target = creep.findRefill();
         if(!creep.refill(target)) {
           task = 'UPG';
           target = false;
         }
-        break;
-      case 'NRG':
-        if(!target) target = creep.findEnergy();
-        creep.getEnergy(target);
         break;
       case 'UPG':
         if(!target) target = creep.findIncreaseLevelTarget();
@@ -69,9 +69,10 @@ Creep.prototype.returnHome = function returnHome(target) {
   if(!target) {
     target = _.sample(Game.spawns);
   }
-  this.moveTo(target, {
+  const result = this.moveTo(target, {
     visualizePathStyle: { stroke: '#000000' }
   });
+  if(result) console.log('moving to home: ' + result);
 };
 
 Creep.prototype.findRefill = function findRefill() {
@@ -118,10 +119,18 @@ Creep.prototype.getEnergy = function getEnergy(source) {
 };
 
 Creep.prototype.findIncreaseLevelTarget = function findIncreaseLevelTarget() {
-  return false;
+  return this.room.controller;
 };
 Creep.prototype.increaseLevel = function increaseLevel(target) {
-
+  const result = this.upgradeController(target);
+  if(result === ERR_NOT_IN_RANGE) {
+    this.moveTo(target, {visualizePathStyle: {stroke: '#0000ff'}});
+    return true;
+  } else if(result) {
+    console.log('upgrade failed: ' + result);
+    return false;
+  }
+  return true;
 };
 
 Creep.prototype.wander = function wander() {

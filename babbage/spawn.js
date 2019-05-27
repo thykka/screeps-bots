@@ -14,16 +14,7 @@ module.exports.loop = function loopSpawn(opts) {
     }
 
     if(!spawn.spawning) {
-      // spawn.renewCreep(creep)
-      const adjacent = spawn.getAdjacentCreeps();
-      if(adjacent[0] && adjacent[0].ticksToLive < 1200) {
-        const result = spawn.renewCreep(adjacent[0]);
-        if(!result) {
-          adjacent[0].say('+');
-        } else {
-          console.log(spawn.name + ' heal failed: ' + result);
-        }
-      }
+      spawn.renewCreeps();
 
       if(energy >= minEnergyToSpawn) {
         // spawn stuff maybe?
@@ -39,6 +30,19 @@ module.exports.loop = function loopSpawn(opts) {
       }
     }
   }));
+};
+
+StructureSpawn.prototype.renewCreeps = function renewCreeps() {
+  const adjacent = _.sortBy(this.getAdjacentCreeps(), ['ticksToLive']);
+  if(adjacent.length && adjacent[0].ticksToLive < 1200) {
+    const creep = adjacent[0];
+    const result = this.renewCreep(creep);
+    if(!result) {
+      creep.say('+');
+    } else {
+      console.log(this.name + ' heal failed: ' + result);
+    }
+  }
 };
 
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
