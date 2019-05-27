@@ -1,3 +1,46 @@
+module.exports.loop = function loopSpawn(opts) {
+  _.forEach(Game.spawns, (spawn => {
+    const roomExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
+      filter: o => o instanceof StructureExtension
+    });
+
+    // Check spawn energy
+    const energy = spawn.getRoomEnergy(roomExtensions);
+    const minEnergyToSpawn = 300;
+
+    // Spawn a creep if there's none left
+    if(energy >= minEnergyToSpawn && _.size(Game.creeps) === 0) {
+      spawn.newCreep();
+    }
+
+    if(!spawn.spawning) {
+      // spawn.renewCreep(creep)
+      const adjacent = spawn.getAdjacentCreeps();
+      if(adjacent[0] && adjacent[0].ticksToLive < 1200) {
+        const result = spawn.renewCreep(adjacent[0]);
+        if(!result) {
+          adjacent[0].say('+');
+        } else {
+          console.log(spawn.name + ' heal failed: ' + result);
+        }
+      }
+
+      if(energy >= minEnergyToSpawn) {
+        // spawn stuff maybe?
+      } else if (Game.time % 1 === 0) {
+        const percentage = 100 * (energy / minEnergyToSpawn);
+        new RoomVisual(spawn.room).text(
+          energy + '/' + minEnergyToSpawn + ' ' + percentage.toFixed(0) + '%',
+          spawn.pos.x, spawn.pos.y + 1.2, {
+            color: '#FF0',
+            font: 0.3
+          }
+        );
+      }
+    }
+  }));
+};
+
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
   return this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
 };
@@ -39,40 +82,4 @@ StructureSpawn.prototype.getAdjacentCreeps = function getAdjacentCreeps() {
       );
     }
   });
-};
-
-module.exports.loop = function loopSpawn(opts) {
-  _.forEach(Game.spawns, (spawn => {
-    const roomExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
-      filter: o => o instanceof StructureExtension
-    });
-
-    // Check spawn energy
-    const energy = spawn.getRoomEnergy(roomExtensions);
-    const minEnergyToSpawn = 300;
-
-    // Spawn a creep if there's none left
-    if(energy >= minEnergyToSpawn && _.size(Game.creeps) === 0) {
-      spawn.newCreep();
-    }
-
-    if(!spawn.spawning) {
-      // spawn.renewCreep(creep)
-      const adjacent = spawn.getAdjacentCreeps();
-      if(adjacent[0] && adjacent[0].ticksToLive < 1200) {
-        const result = spawn.renewCreep(adjacent[0]);
-        if(!result) {
-          adjacent[0].say('+');
-        } else {
-          console.log(spawn.name + ' heal failed: ' + result);
-        }
-      }
-
-      if(energy >= minEnergyToSpawn) {
-        // spawn stuff maybe?
-      } else {
-        console.log(spawn.name + ' E' + energy);
-      }
-    }
-  }));
 };

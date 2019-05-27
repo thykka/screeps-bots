@@ -5,90 +5,111 @@ module.exports.loop = function loopCreep(opts) {
 
   for(const creepName in myCreeps) {
     const creep = myCreeps[creepName];
+    const spawn = Game.getObjectById(creep.memory.spwn);
+
+    // Load state
     let task = creep.memory.task;
-
-
+    let target = Game.getObjectById(creep.memory.trgt);
 
     // ---- Choose task ----
 
     // bringing energy to structure but none left
     if(task !== 'NRG' && creep.carry.energy === 0) {
       task = 'NRG';
+      target = creep.findEnergy();
     }
     // carry full, transfer energy to buildings
     if(task !== 'RFL' && creep.carry.energy === creep.carryCapacity) {
       task = 'RFL';
+      target = creep.findRefill();
     }
     if(creep.ticksToLive < returnThreshold) {
       task = 'HOM'; // ReturnHome
       console.log(creep.name + ' expiring: ' + creep.ticksToLive);
     }
 
-
-
     // ---- Run chosen task ----
-    creep.memory.task = task;
     switch(task) {
       case 'HOM':
-        creep.returnHome();
+        creep.returnHome(spawn);
         break;
       case 'RFL':
-        creep.refill();
+        if(!target) target = creep.findRefill();
+        creep.refill(target);
         break;
       case 'NRG':
-        creep.getEnergy();
+        if(!target) target = creep.findEnergy();
+        creep.getEnergy(target);
+        break;
+      case 'UPG':
+        if(!target) target = creep.findIncreaseLevelTarget();
+        creep.increaseLevel(target);
         break;
       default:
         creep.wander();
     }
+
+    // Save state
+    if(task !== creep.memory.task) creep.memory.task = task;
+    if(target !== creep.memory.target) creep.memory.trgt = target ? target.id : false;
+
+    // UI
     if(Game.time % 4 === 0) { creep.say(task); }
   }
 };
 
-Creep.prototype.returnHome = function returnHome() {
-  const homeSpawn = this.memory.spwn;
-  let target = false;
-  if(homeSpawn) {
-    target = Game.getObjectById(homeSpawn);
-  } else {
+Creep.prototype.returnHome = function returnHome(target) {
+  if(!target) {
     target = _.sample(Game.spawns);
-    // this.memory.spwn = target; // Do we wanna reset home spawn?
   }
-  if(target) {
+  this.moveTo(target, {
+    visualizePathStyle: { stroke: '#000000' }
+  });
+};
+
+Creep.prototype.findRefill = function findRefill() {
+  const result = this.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+    filter: o => (
+      o.energy < o.energyCapacity && (
+        o.structureType === STRUCTURE_SPAWN ||
+        o.structureType === STRUCTURE_EXTENSION ||
+        o.structureType === STRUCTURE_TOWER
+      )
+    )
+  });
+  return result;
+};
+Creep.prototype.refill = function refill(target) {
+  const result = this.transfer(target, RESOURCE_ENERGY);
+  if(result === ERR_NOT_IN_RANGE) {
     this.moveTo(target, {
-      visualizePathStyle: { stroke: '#000000' }
+      visualizePathStyle: { stroke: '#00cccc' }
     });
-  } else {
-    this.say(':(');
+  } else if(result === ERR_FULL) {
+    this.memory.task = false;
+  } else if(result) {
+    console.log('refill failed: ' + result);
   }
 };
 
-Creep.prototype.refill = function getEnergy() {
-  let target = this.pos.findClosestByPath(FIND_MY_STRUCTURES);
-  if(target) {
-    const result = this.transfer(target, RESOURCE_ENERGY);
-    if(result === ERR_NOT_IN_RANGE) {
-      this.moveTo(target, {
-        visualizePathStyle: {stroke: '#00cccc'}
-      });
-    } else if(result) {
-      console.log('refill failed: ' + result);
-    }
+Creep.prototype.findEnergy = function findEnergy() {
+  const result = this.pos.findClosestByPath(FIND_SOURCES);
+  return result;
+};
+Creep.prototype.getEnergy = function getEnergy(source) {
+  const result = this.harvest(source);
+  if(result === ERR_NOT_IN_RANGE) {
+    this.moveTo(source, {
+      visualizePathStyle: { stroke: '#888800' }
+    });
   }
 };
 
-Creep.prototype.getEnergy = function getEnergy() {
-  const source = this.pos.findClosestByPath(FIND_SOURCES);
-  if(source) {
-    const result = this.harvest(source);
-    if(result === ERR_NOT_IN_RANGE) {
-      this.moveTo(source, {
-        visualizePathStyle: { stroke: '#888800' }
-      });
-    }
-  } else {
-    this.say(':/');
-  }
+Creep.prototype.findIncreaseLevelTarget = function findIncreaseLevelTarget() {
+  return false;
+};
+Creep.prototype.increaseLevel = function increaseLevel(target) {
+
 };
 
 Creep.prototype.wander = function wander() {
