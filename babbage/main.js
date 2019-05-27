@@ -10,7 +10,7 @@ module.exports.loop = function mainLoop() {
 
   loopModules.forEach(module => {
     try {
-      const result = loops[module].loop({ cache });
+      const result = loops[module].loop();
     } catch(e) { console.log(e); }
   });
 };
