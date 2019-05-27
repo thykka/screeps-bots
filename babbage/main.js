@@ -13,7 +13,7 @@ module.exports.loop = function mainLoop() {
 
   loopModules.forEach(module => {
     try {
-      const result = loops[module]({ cache });
+      const result = loops[module].loop({ cache });
       if(typeof result !== 'undefined') {
         if(typeof result.cache !== 'undefined') {
           cache[module] = result.cache;
