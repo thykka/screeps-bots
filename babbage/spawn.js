@@ -1,6 +1,7 @@
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
   return this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
 };
+
 StructureSpawn.prototype.newCreep = function newCreep(opts) {
   const defs = {
     body: [WORK, CARRY, MOVE],
@@ -23,6 +24,7 @@ StructureSpawn.prototype.newCreep = function newCreep(opts) {
   }
   console.log(this.name + ': Spawn ' + c.name + ' failed: ' + result);
 };
+
 StructureSpawn.prototype.getAdjacentCreeps = function getAdjacentCreeps() {
   const minX = this.pos.x-1;
   const minY = this.pos.y-1;
