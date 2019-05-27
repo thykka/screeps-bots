@@ -97,7 +97,7 @@ Creep.prototype.refill = function refill(target) {
   } else if(result) {
     success = false;
     if(result === ERR_FULL) {
-      console.log(target.name + ' full!');
+      console.log((target.name || target.room) + ' full!');
     } else {
       console.log('refill failed: ' + result);
     }
