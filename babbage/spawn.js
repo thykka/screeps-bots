@@ -30,10 +30,12 @@ StructureSpawn.prototype.getAdjacentCreeps = function getAdjacentCreeps() {
   const maxY = this.pos.y+1;
 
   return this.room.find(FIND_MY_CREEPS, {
-    filter: c => (
-      c.pos.x > minX && c.pos.x < maxX &&
-      c.pos.y > minY && c.pos.y < maxY
-    )
+    filter: c => {
+      return (
+        c.pos.x >= minX && c.pos.x <= maxX &&
+        c.pos.y >= minY && c.pos.y <= maxY
+      );
+    }
   });
 };
 
@@ -55,8 +57,8 @@ module.exports.loop = function loopSpawn(opts) {
     if(!spawn.spawning) {
       // spawn.renewCreep(creep)
       const adjacent = spawn.getAdjacentCreeps();
-      if(adjacent) {
-        console.log(adjacent);
+      if(adjacent && adjacent.ticksToLive < 1000) {
+        spawn.renewCreep(adjacent[0]);
       } else {
         console.log('no creeps to heal');
       }
