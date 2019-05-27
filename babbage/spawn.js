@@ -14,6 +14,7 @@ StructureSpawn.prototype.newCreep = function newCreep(opts) {
     memory: {
       home: c.home,
       task: c.task,
+      spwn: this.id,
     }
   });
 
@@ -22,6 +23,19 @@ StructureSpawn.prototype.newCreep = function newCreep(opts) {
   }
   console.log(this.name + ': Spawn ' + c.name + ' failed: ' + result);
 };
+StructureSpawn.prototype.getAdjacentCreeps = function getAdjacentCreeps() {
+  const minX = this.pos.x-1;
+  const minY = this.pos.y-1;
+  const maxX = this.pos.x+1;
+  const maxY = this.pos.y+1;
+
+  return this.room.find(FIND_MY_CREEPS, {
+    filter: c => (
+      c.pos.x > minX && c.pos.x < maxX &&
+      c.pos.y > minY && c.pos.y < maxY
+    )
+  });
+};
 
 module.exports.loop = function loopSpawn(opts) {
   _.forEach(Game.spawns, (spawn => {
@@ -29,11 +43,23 @@ module.exports.loop = function loopSpawn(opts) {
       filter: o => o instanceof StructureExtension
     });
 
+    // Check spawn energy
     const energy = spawn.getRoomEnergy(roomExtensions);
     const minEnergyToSpawn = 300;
 
-    if(energy > minEnergyToSpawn && _.size(Game.creeps) === 0) {
+    // Spawn a creep if there's none left
+    if(energy >= minEnergyToSpawn && _.size(Game.creeps) === 0) {
       spawn.newCreep();
+    }
+
+    if(!spawn.spawning) {
+      // spawn.renewCreep(creep)
+      const adjacent = spawn.getAdjacentCreeps();
+      if(adjacent) {
+        console.log(adjacent);
+      } else {
+        console.log('no creeps to heal');
+      }
     }
 
     console.log(spawn.name + ' E' + energy);
