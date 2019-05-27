@@ -1,62 +1,3 @@
-Creep.prototype.returnHome = function returnHome() {
-  const homeSpawn = this.memory.spwn;
-  let target = false;
-  if(homeSpawn) {
-    target = Game.getObjectById(homeSpawn);
-  } else {
-    target = _.sample(Game.spawns);
-    // this.memory.spwn = target; // Do we wanna reset home spawn?
-  }
-  if(target) {
-    this.moveTo(target, {
-      visualizePathStyle: { stroke: '#000000' }
-    });
-  } else {
-    this.say(':(');
-  }
-};
-
-Creep.prototype.getEnergy = function getEnergy() {
-  const source = this.pos.findClosestByPath(FIND_SOURCES);
-  if(source) {
-    const result = this.harvest(source);
-    if(result === ERR_NOT_IN_RANGE) {
-      this.moveTo(source, {
-        visualizePathStyle: { stroke: '#888800' }
-      });
-    }
-  } else {
-    this.say(':/');
-  }
-};
-
-Creep.prototype.refill = function getEnergy() {
-  let target = this.pos.findClosestByPath(FIND_MY_STRUCTURES);
-  if(target) {
-    const result = this.transfer(target, RESOURCE_ENERGY);
-    if(result === ERR_NOT_IN_RANGE) {
-      this.moveTo(target, {
-        visualizePathStyle: {stroke: '#00cccc'}
-      });
-    }
-  }
-};
-
-Creep.prototype.wander = function wander() {
-  const rndX = Math.floor(Math.random() * 3) - 1;
-  const rndY = Math.floor(Math.random() * 3) - 1;
-
-  let x = this.pos.x + rndX;
-  let y = this.pos.y + rndY;
-
-  // limit to room bounds
-  if(x < 1) { x = 1; } else if(x > 48) { x = 48; }
-  if(y < 1) { y = 1; } else if(y > 48) { y = 48; }
-
-  this.moveTo( x, y, { visualizePathStyle: { stroke: '#000000' } });
-  this.say('-');
-};
-
 module.exports.loop = function loopCreep(opts) {
   const returnThreshold = 300;
 
@@ -100,6 +41,67 @@ module.exports.loop = function loopCreep(opts) {
       default:
         creep.wander();
     }
-    if(Game.time % 10 === 0) { creep.say(task); }
+    if(Game.time % 4 === 0) { creep.say(task); }
   }
+};
+
+Creep.prototype.returnHome = function returnHome() {
+  const homeSpawn = this.memory.spwn;
+  let target = false;
+  if(homeSpawn) {
+    target = Game.getObjectById(homeSpawn);
+  } else {
+    target = _.sample(Game.spawns);
+    // this.memory.spwn = target; // Do we wanna reset home spawn?
+  }
+  if(target) {
+    this.moveTo(target, {
+      visualizePathStyle: { stroke: '#000000' }
+    });
+  } else {
+    this.say(':(');
+  }
+};
+
+Creep.prototype.refill = function getEnergy() {
+  let target = this.pos.findClosestByPath(FIND_MY_STRUCTURES);
+  if(target) {
+    const result = this.transfer(target, RESOURCE_ENERGY);
+    if(result === ERR_NOT_IN_RANGE) {
+      this.moveTo(target, {
+        visualizePathStyle: {stroke: '#00cccc'}
+      });
+    } else if(result) {
+      console.log('refill failed: ' + result);
+    }
+  }
+};
+
+Creep.prototype.getEnergy = function getEnergy() {
+  const source = this.pos.findClosestByPath(FIND_SOURCES);
+  if(source) {
+    const result = this.harvest(source);
+    if(result === ERR_NOT_IN_RANGE) {
+      this.moveTo(source, {
+        visualizePathStyle: { stroke: '#888800' }
+      });
+    }
+  } else {
+    this.say(':/');
+  }
+};
+
+Creep.prototype.wander = function wander() {
+  const rndX = Math.floor(Math.random() * 3) - 1;
+  const rndY = Math.floor(Math.random() * 3) - 1;
+
+  let x = this.pos.x + rndX;
+  let y = this.pos.y + rndY;
+
+  // limit to room bounds
+  if(x < 1) { x = 1; } else if(x > 48) { x = 48; }
+  if(y < 1) { y = 1; } else if(y > 48) { y = 48; }
+
+  this.moveTo( x, y, { visualizePathStyle: { stroke: '#000000' } });
+  this.say('-');
 };

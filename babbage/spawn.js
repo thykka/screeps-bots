@@ -67,8 +67,12 @@ module.exports.loop = function loopSpawn(opts) {
           console.log(spawn.name + ' heal failed: ' + result);
         }
       }
-    } else {
-      console.log(spawn.name + ' E' + energy);
+
+      if(energy >= minEnergyToSpawn) {
+        // spawn stuff maybe?
+      } else {
+        console.log(spawn.name + ' E' + energy);
+      }
     }
   }));
 };
