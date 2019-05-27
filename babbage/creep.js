@@ -61,11 +61,11 @@ module.exports.loop = function loopCreep(opts) {
     // ---- Choose task ----
 
     // bringing energy to structure but none left
-    if(task === 'RFL' && creep.carry.energy === 0) {
+    if(task !== 'NRG' && creep.carry.energy === 0) {
       task = 'NRG';
     }
     // carry full, transfer energy to buildings
-    if(task === 'NRG' && creep.carry.energy === creep.carryCapacity) {
+    if(task !== 'RFL' && creep.carry.energy === creep.carryCapacity) {
       task = 'RFL';
     }
     if(creep.ticksToLive < returnThreshold) {
