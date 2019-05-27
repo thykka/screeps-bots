@@ -57,10 +57,13 @@ module.exports.loop = function loopSpawn(opts) {
     if(!spawn.spawning) {
       // spawn.renewCreep(creep)
       const adjacent = spawn.getAdjacentCreeps();
-      if(adjacent && adjacent.ticksToLive < 1000) {
-        spawn.renewCreep(adjacent[0]);
-      } else {
-        console.log('no creeps to heal');
+      if(adjacent && adjacent.ticksToLive < 1200) {
+        const result = spawn.renewCreep(adjacent[0]);
+        if(!result) {
+          adjacent[0].say('+');
+        } else {
+          console.log(spawn.name + ' heal failed: ' + result);
+        }
       }
     }
 
