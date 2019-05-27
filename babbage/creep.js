@@ -17,6 +17,18 @@ Creep.prototype.returnHome = function returnHome() {
 };
 
 Creep.prototype.getEnergy = function getEnergy() {
+  const source = this.pos.findClosestByPath(FIND_SOURCES);
+  if(source) {
+    const result = this.harvest(source);
+    if(result === ERR_NOT_IN_RANGE) {
+      this.moveTo(source);
+    }
+  } else {
+    this.say(':/');
+  }
+};
+
+Creep.prototype.refill = function getEnergy() {
 
 };
 
