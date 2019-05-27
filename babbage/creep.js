@@ -1,13 +1,23 @@
 Creep.prototype.returnHome = function returnHome() {
   const homeSpawn = this.memory.spwn;
+  let target = false;
   if(homeSpawn) {
-    const target = Game.getObjectById(homeSpawn);
+    target = Game.getObjectById(homeSpawn);
+  } else {
+    target = _.sample(Game.spawns);
+    // this.memory.spwn = target; // Do we wanna reset home spawn?
+  }
+  if(target) {
     this.moveTo(target, {
       visualizePathStyle: { stroke: '#ffff00' }
     });
   } else {
-
+    this.say(':(');
   }
+};
+
+Creep.prototype.getEnergy = function getEnergy() {
+
 };
 
 Creep.prototype.wander = function wander() {
@@ -34,12 +44,40 @@ module.exports.loop = function loopCreep(opts) {
     const creep = myCreeps[creepName];
     const task = creep.memory.task;
 
-    if(creep.ticksToLive < returnThreshold) { // creep about to expire
+
+
+    // ---- Choose task ----
+
+    // bringing energy to structure but none left
+    if(task === 'RFL' && creep.carry.energy === 0) {
+      task = 'NRG';
+    }
+    // carry full, transfer energy to buildings
+    if(task === 'NRG' && creep.carry.energy === creep.carryCapacity) {
+      task = 'RFL';
+    }
+    if(creep.ticksToLive < returnThreshold) {
+      task = 'HOM'; // ReturnHome
       console.log(creep.name + ' expiring: ' + creep.ticksToLive);
-      creep.returnHome();
-      break;
     }
 
-    creep.wander();
+
+
+    // ---- Run chosen task ----
+
+    creep.memory.task = task;
+    switch(task) {
+      case 'HOM':
+        creep.returnHome();
+        break;
+      case 'RFL':
+        creep.refill();
+        break;
+      case 'NRG':
+        creep.getEnergy();
+        break;
+      default:
+        creep.wander();
+    }
   }
 };
