@@ -20,8 +20,12 @@ module.exports.loop = function loopCreep(opts) {
     }
     // carry full, transfer energy to buildings
     if(task !== 'RFL' && creep.carry.energy === creep.carryCapacity) {
-      task = 'RFL';
       target = creep.findRefill();
+      if(target) {
+        task = 'RFL';
+      } else {
+        task = 'UPG';
+      }
     }
     if(creep.ticksToLive < returnThreshold) {
       task = 'HOM'; // ReturnHome
@@ -35,7 +39,10 @@ module.exports.loop = function loopCreep(opts) {
         break;
       case 'RFL':
         if(!target) target = creep.findRefill();
-        creep.refill(target);
+        if(!creep.refill(target)) {
+          task = 'UPG';
+          target = false;
+        }
         break;
       case 'NRG':
         if(!target) target = creep.findEnergy();
@@ -80,16 +87,21 @@ Creep.prototype.findRefill = function findRefill() {
   return result;
 };
 Creep.prototype.refill = function refill(target) {
+  let success = true;
   const result = this.transfer(target, RESOURCE_ENERGY);
   if(result === ERR_NOT_IN_RANGE) {
     this.moveTo(target, {
       visualizePathStyle: { stroke: '#00cccc' }
     });
-  } else if(result === ERR_FULL) {
-    this.memory.task = false;
   } else if(result) {
-    console.log('refill failed: ' + result);
+    success = false;
+    if(result === ERR_FULL) {
+      console.log(target.name + ' full!');
+    } else {
+      console.log('refill failed: ' + result);
+    }
   }
+  return success;
 };
 
 Creep.prototype.findEnergy = function findEnergy() {
