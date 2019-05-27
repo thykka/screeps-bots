@@ -24,5 +24,6 @@ function cleanMemory() {
       dead = !dead ? name : dead + ', ' + name;
     }
   }
+  if(dead) Game.notify('Dead creeps: ' + dead);
   return dead;
 };
