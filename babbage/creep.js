@@ -54,7 +54,7 @@ module.exports.loop = function loopCreep(opts) {
 
   for(const creepName in myCreeps) {
     const creep = myCreeps[creepName];
-    const task = creep.memory.task;
+    let task = creep.memory.task;
 
 
 
