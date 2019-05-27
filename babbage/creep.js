@@ -58,7 +58,7 @@ module.exports.loop = function loopCreep(opts) {
 
     // Save state
     if(task !== creep.memory.task) creep.memory.task = task;
-    if(target !== creep.memory.target) creep.memory.trgt = target ? target.id : false;
+    if(target !== creep.memory.trgt) creep.memory.trgt = target ? target.id : false;
 
     // UI
     if(Game.time % 4 === 0) { creep.say(task); }
