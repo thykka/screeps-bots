@@ -3,8 +3,8 @@ module.exports.loop = function loopCreep(opts) {
 
   const myCreeps = _.filter(Game.creeps, c => c.my);
 
-  for(const creepName in myCreeps) {
-    const creep = myCreeps[creepName];
+  _.forEach(myCreeps, (creep, creepIndex) => {
+
     const spawn = Game.getObjectById(creep.memory.spwn);
 
     // Load state
@@ -13,6 +13,13 @@ module.exports.loop = function loopCreep(opts) {
 
     // ---- Choose task ----
 
+    if(task === 'HOM' && creep.ticksToLive >= resumeThreshold) {
+      if(creep.carry.energy > (creep.carryCapacity / 2)) {
+        task = 'RFL';
+      } else {
+        task = 'NRG';
+      }
+    }
     if(task !== 'NRG' && creep.carry.energy === 0) {
       // no energy in carry.. find more
       task = 'NRG';
@@ -61,8 +68,8 @@ module.exports.loop = function loopCreep(opts) {
     if(target !== creep.memory.trgt) creep.memory.trgt = target ? target.id : false;
 
     // UI
-    if(Game.time % 4 === 0) { creep.say(task); }
-  }
+    if((Game.time + creepIndex) % _.size(myCreeps) === 0) { creep.say(task); }
+  });
 };
 
 Creep.prototype.returnHome = function returnHome(target) {
