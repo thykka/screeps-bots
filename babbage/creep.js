@@ -12,7 +12,7 @@ module.exports.loop = function loopCreep(opts) {
     let target = Game.getObjectById(creep.memory.trgt);
 
     // ---- Choose task ----
-
+	// TODO: End 'HOM' task if apporopriate, otherwise creep will just stay at base forever.
     if(task !== 'NRG' && creep.carry.energy === 0) {
       // no energy in carry.. find more
       task = 'NRG';
