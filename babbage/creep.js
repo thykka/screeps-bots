@@ -1,7 +1,6 @@
-module.exports.loop = function loopCreep(opts) {
-  const returnThreshold = 300;
-  const resumeThreshold = 1400;
+const Renew = require('renew');
 
+module.exports.loop = function loopCreep(opts) {
   const myCreeps = _.filter(Game.creeps, c => c.my);
 
   _.forEach(myCreeps, (creep, creepIndex) => {
@@ -14,7 +13,7 @@ module.exports.loop = function loopCreep(opts) {
 
     // ---- Choose task ----
 
-    if(task === 'HOM' && creep.ticksToLive >= resumeThreshold) {
+    if(task === 'HOM' && creep.ticksToLive >= Renew.resumeThreshold) {
       if(creep.carry.energy > (creep.carryCapacity / 2)) {
         task = 'RFL';
       } else {
@@ -35,7 +34,7 @@ module.exports.loop = function loopCreep(opts) {
         task = 'UPG';
       }
     }
-    if(creep.ticksToLive < returnThreshold) {
+    if(creep.ticksToLive < Renew.returnThreshold) {
       task = 'HOM'; // ReturnHome
       console.log(creep.name + ' expiring: ' + creep.ticksToLive);
     }
@@ -73,15 +72,7 @@ module.exports.loop = function loopCreep(opts) {
   });
 };
 
-Creep.prototype.returnHome = function returnHome(target) {
-  if(!target) {
-    target = _.sample(Game.spawns);
-  }
-  const result = this.moveTo(target, {
-    visualizePathStyle: { stroke: '#000000' }
-  });
-  if(result) console.log('moving to home: ' + result);
-};
+Creep.prototype.returnHome = Renew.returnHome;
 
 Creep.prototype.findRefill = function findRefill() {
   const result = this.pos.findClosestByPath(FIND_MY_STRUCTURES, {

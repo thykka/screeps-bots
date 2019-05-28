@@ -1,3 +1,5 @@
+const Renew = require('renew');
+
 module.exports.loop = function loopSpawn(opts) {
   _.forEach(Game.spawns, (spawn => {
     const roomExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
@@ -32,7 +34,9 @@ module.exports.loop = function loopSpawn(opts) {
   }));
 };
 
-StructureSpawn.prototype.renewCreeps = function renewCreeps() {
+StructureSpawn.prototype.renewCreeps = Renew.renewCreeps;
+/*
+function renewCreeps() {
   const adjacent = _.sortBy(this.getAdjacentCreeps(), ['ticksToLive']);
   if(adjacent.length && adjacent[0].ticksToLive < 1200) {
     const creep = adjacent[0];
@@ -44,6 +48,7 @@ StructureSpawn.prototype.renewCreeps = function renewCreeps() {
     }
   }
 };
+*/
 
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
   return this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
