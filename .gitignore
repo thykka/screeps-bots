@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+
+// screeps account credentials
+// see gulp-screeps documentation for details
+.credentials.js

@@ -1,0 +1,26 @@
+{
+  "name": "screeps-bots",
+  "version": "0.2.0",
+  "description": "thykka's screeps bots - see README.md for details",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thykka/screeps-bots.git"
+  },
+  "keywords": [
+    "screeps"
+  ],
+  "author": "thykka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thykka/screeps-bots/issues"
+  },
+  "homepage": "https://github.com/thykka/screeps-bots#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-screeps": "^1.0.8"
+  }
+}
