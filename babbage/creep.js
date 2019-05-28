@@ -1,5 +1,6 @@
 module.exports.loop = function loopCreep(opts) {
   const returnThreshold = 300;
+  const resumeThreshold = 1400;
 
   const myCreeps = _.filter(Game.creeps, c => c.my);
 
