@@ -36,7 +36,7 @@ module.exports.loop = function loopCreep(opts) {
     }
     if(creep.ticksToLive < Renew.returnThreshold) {
       task = 'HOM'; // ReturnHome
-      console.log(creep.name + ' expiring: ' + creep.ticksToLive);
+      if(Game.time % 4 === 0) console.log(creep.name + ' - expiring in ' + creep.ticksToLive);
     }
 
     // ---- Run chosen task ----
@@ -95,10 +95,8 @@ Creep.prototype.refill = function refill(target) {
     });
   } else if(result) {
     success = false;
-    if(result === ERR_FULL) {
-      console.log((target.name || target.room) + ' full!');
-    } else {
-      console.log('refill failed: ' + result);
+    if(result !== ERR_FULL) {
+      console.log(this.name + ' - refill error: ' + result);
     }
   }
   return success;
@@ -126,7 +124,7 @@ Creep.prototype.increaseLevel = function increaseLevel(target) {
     this.moveTo(target, {visualizePathStyle: {stroke: '#0000ff'}});
     return true;
   } else if(result) {
-    console.log('upgrade failed: ' + result);
+    console.log(this.name + ' - upgrade error: ' + result);
     return false;
   }
   return true;

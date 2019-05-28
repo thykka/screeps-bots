@@ -35,20 +35,6 @@ module.exports.loop = function loopSpawn(opts) {
 };
 
 StructureSpawn.prototype.renewCreeps = Renew.renewCreeps;
-/*
-function renewCreeps() {
-  const adjacent = _.sortBy(this.getAdjacentCreeps(), ['ticksToLive']);
-  if(adjacent.length && adjacent[0].ticksToLive < 1200) {
-    const creep = adjacent[0];
-    const result = this.renewCreep(creep);
-    if(!result) {
-      creep.say('+');
-    } else {
-      console.log(this.name + ' heal failed: ' + result);
-    }
-  }
-};
-*/
 
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
   return this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
@@ -57,7 +43,7 @@ StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
 StructureSpawn.prototype.newCreep = function newCreep(opts) {
   const defs = {
     body: [WORK, CARRY, MOVE],
-    name: 'c0',
+    name: (Date.now().toString(32).slice(-2)),
     task: false,
     home: this.room.name,
   };
@@ -74,7 +60,7 @@ StructureSpawn.prototype.newCreep = function newCreep(opts) {
   if(!result) {
     return Game.creeps[c.name];
   }
-  console.log(this.name + ': Spawn ' + c.name + ' failed: ' + result);
+  console.log(this.name + ' - failed spawning creep ' + c.name + ': ' + result);
 };
 
 StructureSpawn.prototype.getAdjacentCreeps = function getAdjacentCreeps() {
