@@ -13,7 +13,7 @@ const defaultTask = branchTasks['babbage'];
 gulp.task('default', defaultTask);
 
 
-const taskScreeps = function(branch = 'testing', options = {}) {
+function taskScreeps(branch = 'testing', options = {}) {
   const defaults = { branch };
   const config = Object.assign({}, defaults, credentials, options);
 
