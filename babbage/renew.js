@@ -9,7 +9,7 @@ const Renew = {
       if(!result) {
         creep.say('+');
       } else {
-        console.log(this.name + ' heal failed: ' + result);
+        console.log(this.name + ' - renew error: ' + result);
       }
     }
   },
@@ -20,7 +20,11 @@ const Renew = {
     const result = this.moveTo(target, {
       visualizePathStyle: { stroke: '#000000' }
     });
-    if(result) console.log('moving to home: ' + result);
+    if(!result) {
+      this.say('!');
+    } else {
+      console.log(this.name + ' - returning error: ' + result);
+    }
   },
 };
 
