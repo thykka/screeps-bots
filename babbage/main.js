@@ -1,3 +1,4 @@
+console.log('--> loaded babbage ' + Game.time);
 const loops = {};
 const loopModules = [
   'spawn',

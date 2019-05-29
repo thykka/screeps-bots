@@ -2,7 +2,9 @@ const Renew = require('renew');
 StructureSpawn.prototype.renewCreeps = Renew.renewCreeps;
 
 StructureSpawn.prototype.getRoomEnergy = function getRoomEnergy(extensions) {
-  return this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
+  if(!Array.isArray(extensions)) extensions = this.loadExtensions();
+  return !extensions.length ? this.energy :
+    this.energy + extensions.reduce((acc, o) => o.energy + acc, 0);
 };
 
 StructureSpawn.prototype.newCreep = function newCreep(opts) {
@@ -58,18 +60,20 @@ StructureSpawn.prototype.getPrice = function getPrice(body) {
 
 StructureSpawn.prototype.loadExtensions = function loadExtensions(update = false) {
   let extensions = this.memory.extensions;
+  let extensionArr = [];
 
   if(!update && typeof extensions==='string') {
     if(extensions.indexOf('|') >= 0) {
-      return extensions.split('|').map(extId => Game.getObjectById(extId));
+      extensionArr = extensions.split('|').map(extId => Game.getObjectById(extId));
+    } else {
+      extensionArr = [ Game.getObjectById(extensions) ];
     }
-    return [ Game.getObjectById(extensions) ];
+  } else {
+    extensionArr = this.room.find(FIND_MY_STRUCTURES, {
+      filter: o => o instanceof StructureExtension
+    });
+    this.memory.extensions = extensionArr.map(ext => ext.id).join('|');
   }
 
-  extensions = this.room.find(FIND_MY_STRUCTURES, {
-    filter: o => o instanceof StructureExtension
-  });
-  this.memory.extensions = extensions.map(ext => ext.id).join('|');
-
-  return extensions;
+  return extensionArr.filter(ext => !!ext);
 };

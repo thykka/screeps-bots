@@ -2,13 +2,13 @@ require('spawn.methods'); // StructureSpawn prototype additions
 const SpawnLevels = require('spawn.levels');
 
 module.exports.loop = function loopSpawn(opts) {
-  _.forEach(Game.spawns, (spawn => {
-    // get extensions from memory or cache
-    const extensions = spawn.loadExtensions();
-
+  _.forEach(Game.spawns, ((spawn, spawnIndex) => {
     // Check spawn energy
-    const energy = spawn.getRoomEnergy(extensions);
-    const minEnergyToSpawn = 300;
+    const energy = spawn.getRoomEnergy(
+      // update extensions memory at start of loop
+      spawn.loadExtensions(spawnIndex % Game.spawns.length === 0)
+    );
+    const minEnergyToSpawn = 300; // TODO: get energy req from SpawnLevels
 
     // Spawn a creep if there's none left
     if(energy >= minEnergyToSpawn && _.size(Game.creeps) === 0) {
