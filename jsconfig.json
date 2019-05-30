@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES6"
+  },
+  "include": [
+    "asimov/*.js",
+    "babbage/*.js"
+  ],
+  "files": ["./screeps.d.ts"]
+}
