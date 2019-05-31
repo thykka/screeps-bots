@@ -1,3 +1,16 @@
+Room.prototype.embark = function embark() {
+  const spawn = Game.spawns[_.head(Object.keys(Game.spawns))];
+  const room = Game.rooms[_.head(Object.keys(Game.rooms))];
+  room.setupSources();
+  // add tasks:
+  //   - spawn builder
+  //   - harvest energy until enough to spawn another creep
+  //   - spawn static harvester
+  //   - build containers
+  //   - drag haverster to source once spawned
+  //   - start static harvesting
+  return result;
+};
 
 /**
  * Surround sources with containers for static mining
