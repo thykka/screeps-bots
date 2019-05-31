@@ -3,7 +3,7 @@ const screeps = require('gulp-screeps');
 const credentials = require('./.credentials.js');
 
 const branchTasks = [];
-['asimov','babbage'].forEach(branch => {
+['asimov','babbage','cailliau'].forEach(branch => {
   const branchTask = taskScreeps(branch);
   gulp.task('screeps:' + branch, branchTask);
   branchTasks.push(branchTask);
