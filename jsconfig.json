@@ -6,5 +6,5 @@
     "asimov/*.js",
     "babbage/*.js"
   ],
-  "files": ["./screeps.d.ts"]
+  "files": ["screeps.d.ts"]
 }

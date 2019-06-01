@@ -1,46 +1,54 @@
 # TODO for Cailliau
 
-## Implement STORE
-  - Interface for StructureSpawn/Creep/Global
-  - STORE_LOAD <= STORE_FROM_MEMORY || STORE_UPDATE
-  - STORE_UPDATE get value from SUBJECT memory
-  - https://docs.screeps.com/global-objects.html#Serialization
+## First steps
 
-## Implement LOOP
-  - STORE_LOAD
-    - STORE each OUTPOST
-    - STORE ROOMS in OUTPOST
-    - STORE Controlled Spawns
-    - STORE Controlled Creeps
-    - STORE StructureSources
+  X global.Roles.Worker (Body: [WORK, CARRY, MOVE], Name: 'wXX')
 
-  - RUN_OUTPOST for each OUTPOST
+### Prototypes for spawns
 
-## Implement OUTPOST
-  - STORE TASK_QUEUE
-  - RUN_TASKS in TASK_QUEUE
+  X Spawn.newCreep(Role)
+    X Name: Role[0] + Utils.generateId(3)
 
-## Implement TASK_QUEUE
-  - Try to insert 1 TASKS per 1/n ticks
-  - Stop inserting if TASK_QUEUE is longer than OUTPOST's creeps?
-  - END_TASK in TASK_QUEUE if TASK_CONDITION is satisfied
+### Prototypes for tasks
 
-## Implement RUN_TASKS
-  -
+  X Creep.MoveNear(Creep, RoomPosition)
 
-## Implement TASKS
-  * SPWN_CREEP
-    - spawn a new creep with CREEP_ROLE and it's PARTS
+  X Creep.Harvest(Creep, Source)
+    - Worker should start a MoveNear(Creep, Source) task, then Harvest(Source) task
 
-  * BUILD (generator)
-    - WHAT and WHERE
+  X Creep.Unload(Creep, Structure)
+    - Worker should start a MoveNear(Creep, Spawn) task, then Empty(Spawn) task
 
-  * BUILD_HARVEST_CONTAINER
-    - <= STORE_LOAD StructureSources
+  - Creep.PlainHarvest(Creep, Source, Targets)
+    - if Creep is Full and Harvesting > Creep.Unload(Creep, Targets.closest)
+      - req: Memory
+    - if Creep is Empty and not Harvesting > Creep.Harvest(Creep, Source)
+      - req: Memory
 
-  * HARVEST
-    -
+## Second steps
 
-## Implement CREEP_ROLE
-  - => TASK_TYPES the creep may take
-  - => PARTS the creep is built from
+  - Main loop?? How will the task list and cpu-heavy ops be scheduled?
+
+  - TaskQueue
+    - req: Memory
+
+  - Harvesting enough for a StaticWorker
+    - req: Tasks, PlainHarvest, Unload
+
+  - Spawning a StaticWorker
+    - req: Tasks StaticWorker
+
+  - Drag StaticWorker with Worker Task
+  - Get second creep into StaticHarvesting position
+
+## Third steps
+
+### Prototypes for tasks
+
+  - global.Roles.StaticHarvest
+
+  - Creep.Build(Creep, Source, ConstructionSite)
+
+  - Creep.Drag(Creep, TargetCreep, TargetPos)
+
+  - Creep.StaticHarvest(Creep, Source, DropTarget)
