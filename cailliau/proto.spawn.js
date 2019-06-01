@@ -6,14 +6,19 @@ StructureSpawn.prototype.newWorker = function newWorker() {
   this.newCreep(workerRole);
 };
 
-StructureSpawn.prototype.newCreep = function newCreep(role) {
+StructureSpawn.prototype.newCreep = function newCreep(role, task) {
   const { body, name } = role;
   if(!body | !name) {
     throw Error('missing ' + ['body', 'name'].filter(key => !role[key]));
   }
-  console.log('Spawning ' + name + ' with ', body);
+  const memory = {
+    spawn: this.id,
+    room: this.room.name,
+    task: task.type || false,
+    target: false,
+  };
   const spawnResult = this.spawnCreep(
-    body, `${ name[0] }_${ generateId(3) }`, {}
+    body, `${ name[0] }_${ generateId(3) }`, { memory }
   );
   if(spawnResult != 0) {
     console.log(this, {
@@ -25,7 +30,7 @@ StructureSpawn.prototype.newCreep = function newCreep(role) {
       '-14': 'ERR_RCL_NOT_ENOUGH - Your Room Controller level is insufficient to use this spawn.',
     }[spawnResult]);
   } else {
-
+    console.log('Spawning ' + name + ' with ', body);
   }
 };
 

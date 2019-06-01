@@ -1,18 +1,63 @@
+const Tasks = require('tasks');
+
 const Errors = {
-  '-1': 'NOT_OWNER',
-  '-2': 'NO_PATH',
-  '-3': 'NAME_EXISTS',
-  '-4': 'BUSY',
-  '-5': 'NOT_FOUND',
-  '-6': 'NOT_ENOUGH_(ENERGY/EXTENSTIONS/RESOURCES)',
-  '-7': 'INVALID_TARGET',
-  '-8': 'FULL',
-  '-9': 'NOT_IN_RANGE',
-  '-10': 'INVALID_ARGS',
-  '-11': 'TIRED',
-  '-12': 'NO_BODYPART',
-  '-14': 'RCL_NOT_ENOUGH',
-  '-15': 'GCL_NOT_ENOUGH',
+  '-1': 'not owner',
+  '-2': 'no path',
+  '-3': 'name exists',
+  '-4': 'busy',
+  '-5': 'not found',
+  '-6': 'not enough (energy/extenstions/resources)',
+  '-7': 'invalid target',
+  '-8': 'full',
+  '-9': 'not in range',
+  '-10': 'invalid args',
+  '-11': 'tired',
+  '-12': 'no bodypart',
+  '-14': 'rcl not enough',
+  '-15': 'gcl not enough',
+};
+
+/**
+ * Give or change a creep's task
+ * @param {Task} - the task to assign
+ */
+Creep.prototype.setTask = function setTask(task) {
+  task.begin(this);
+};
+
+Creep.prototype.getTaskActions = function getTaskActions() {
+  const task = Tasks[this.memory.task];
+  if(task) {
+    return {
+      run: task.getRunAction(this),
+      finish: task.getFinishAction(this),
+      end: task.getEndAction(this),
+    };
+  }
+  return false;
+};
+
+Creep.prototype.runTask = function runTask() {
+  const { run, finish, end } = this.getTaskActions();
+  if(typeof run !== 'function') { throw new Error('Task gave no run ation'); }
+
+  let runResult, finishTask;
+  runResult = run(); // usually the exit code of a native Screeps method
+
+  if(typeof finish === 'function') {
+    finishTask = finish(runResult);
+  }
+  if(finishTask) {
+    if(typeof end === 'function') {
+      end(finishTask);
+    } else {
+      this.clearTask();
+    }
+  }
+};
+
+Creep.prototype.clearTask = function clearTask() {
+  this.memory.task = false;
 };
 
 Creep.prototype.MoveNear = function MoveNear(opts) {
@@ -63,8 +108,11 @@ Creep.prototype.Unload = function Unload(opts) {
       moveFn();
     } else if(transferResult == ERR_NOT_ENOUGH_RESOURCES) {
       // stop unloading
+    } else if(transferResult == ERR_FULL) {
+      // find another target
+    } else if(transferResult) {
+      console.log(this, Errors[transferResult]);
     }
-    if(transferResult) console.log(this, Errors[transferResult]);
     return transferResult;
   };
 };

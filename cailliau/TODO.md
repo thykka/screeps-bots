@@ -14,26 +14,24 @@
   X Creep.MoveNear(Creep, RoomPosition)
 
   X Creep.Harvest(Creep, Source)
-    - Worker should start a MoveNear(Creep, Source) task, then Harvest(Source) task
 
   X Creep.Unload(Creep, Structure)
-    - Worker should start a MoveNear(Creep, Spawn) task, then Empty(Spawn) task
 
-  - Creep.PlainHarvest(Creep, Source, Targets)
+  X Creep.PlainHarvest(Creep, Source, Targets)
     - if Creep is Full and Harvesting > Creep.Unload(Creep, Targets.closest)
-      - req: Memory
+      X req: Memory
     - if Creep is Empty and not Harvesting > Creep.Harvest(Creep, Source)
-      - req: Memory
+      X req: Memory
 
 ## Second steps
 
-  - Main loop?? How will the task list and cpu-heavy ops be scheduled?
+  X Main loop?? How will the task list and cpu-heavy ops be scheduled?
 
-  - TaskQueue
+  X TaskQueue
     - req: Memory
 
-  - Harvesting enough for a StaticWorker
-    - req: Tasks, PlainHarvest, Unload
+  X Harvesting enough for a StaticWorker
+    X req: Tasks, PlainHarvest, Unload
 
   - Spawning a StaticWorker
     - req: Tasks StaticWorker
