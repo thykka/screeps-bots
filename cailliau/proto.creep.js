@@ -17,111 +17,123 @@ const Errors = {
   '-15': 'gcl not enough',
 };
 
+Creep.prototype.chatty = true;
+
 /**
  * Give or change a creep's task
  * @param {Task} - the task to assign
  */
 Creep.prototype.setTask = function setTask(task) {
-  task.begin(this);
-};
-
-Creep.prototype.getTaskActions = function getTaskActions() {
-  const task = Tasks[this.memory.task];
-  if(task) {
-    return {
-      run: task.getRunAction(this),
-      finish: task.getFinishAction(this),
-      end: task.getEndAction(this),
-    };
-  }
-  return false;
-};
-
-Creep.prototype.runTask = function runTask() {
-  const { run, finish, end } = this.getTaskActions();
-  if(typeof run !== 'function') { throw new Error('Task gave no run ation'); }
-
-  let runResult, finishTask;
-  runResult = run(); // usually the exit code of a native Screeps method
-
-  if(typeof finish === 'function') {
-    finishTask = finish(runResult);
-  }
-  if(finishTask) {
-    if(typeof end === 'function') {
-      end(finishTask);
-    } else {
-      this.clearTask();
+  // end existing task
+  if(this.memory.task) {
+    const oldTask = Tasks[this.memory.task];
+    if(oldTask) {
+      try {
+        oldTask.end.bind(oldTask)(this);
+      } catch(e) { console.log(this.name + 'ending old task'); }
     }
   }
+  this.say(task.type);
+  try {
+    task.begin.bind(task)(this);
+  } catch(e) { console.log(this.name + ' task initialization', e); }
 };
 
-Creep.prototype.clearTask = function clearTask() {
-  this.memory.task = false;
+
+Creep.prototype.runTask = function runTask() {
+  const task = Tasks[this.memory.task];
+  if(!task) { console.log(this.name + ' has no task'); return false; }
+  const { run, finish, end } = task;
+
+  let runResult, shouldEnd;
+  try {
+    runResult = run.bind(task)(this);
+  } catch(e) { console.log('Task.run', e); }
+  try {
+    shouldEnd = finish.bind(task)(this, runResult);
+  } catch(e) { console.log('Task.finish', e); }
+  if(shouldEnd) {
+    try {
+      end.bind(task)(this);
+    } catch(e) { console.log('Task.end', e); }
+  }
 };
 
 Creep.prototype.MoveNear = function MoveNear(opts) {
-  /* TODO: optimize later
-  const path = this.findPathTo(x, y, {
-    maxOps: 1000
-  });
-  */
-  const { target } = opts;
+  const { target, color } = opts;
   let x = target.pos.x;
   let y = target.pos.y;
 
-  return () => {
-    const moveResult = this.moveTo(x, y, {
-      reusePath: 8,
-      visualizePathStyle: {
-        stroke: '#ED0',
-        opacity: 1,
-        lineStyle: 'solid',
-        strokeWidth: 0.06125,
-      }
-    });
-    if(moveResult) console.log(this, Errors[moveResult]);
-    return moveResult;
-  };
+  const moveResult = this.moveTo(x, y, {
+    reusePath: 8,
+    visualizePathStyle: {
+      stroke: color || '#000',
+      opacity: 1,
+      lineStyle: 'solid',
+      strokeWidth: 0.06125,
+    }
+  });
+  return moveResult;
+
 };
 Creep.prototype.Harvest = function Harvest(opts) {
-  //  Worker should start a MoveNear(Creep, Source) task, then Harvest(Source) task
   const { target } = opts;
-  const moveFn = this.MoveNear({ target });
-  return () => {
-    const harvestResult = this.harvest(target);
-    if(harvestResult == ERR_NOT_IN_RANGE) {
-      moveFn();
-    }
-    if(harvestResult) console.log(this, Errors[harvestResult]);
-    return harvestResult;
-  };
+  const harvestResult = this.harvest(target);
+  if(harvestResult == ERR_NOT_IN_RANGE) {
+    this.MoveNear({ target }, '#FF0');
+  }
+  return harvestResult;
 };
 
 Creep.prototype.Unload = function Unload(opts) {
-  //  Worker should start a MoveNear(Creep, Spawn) task, then Empty(Spawn) task
   const { target } = opts;
-  const moveFn = this.MoveNear({ target });
-  return () => {
-    const transferResult = this.transfer(target, RESOURCE_ENERGY);
-    if(transferResult == ERR_NOT_IN_RANGE) {
-      moveFn();
-    } else if(transferResult == ERR_NOT_ENOUGH_RESOURCES) {
-      // stop unloading
-    } else if(transferResult == ERR_FULL) {
-      // find another target
-    } else if(transferResult) {
-      console.log(this, Errors[transferResult]);
-    }
-    return transferResult;
-  };
+  const transferResult = this.transfer(target, RESOURCE_ENERGY);
+  if(transferResult == ERR_NOT_IN_RANGE) {
+    this.MoveNear({ target }, '#888');
+  }
+  return transferResult;
 };
 
-Creep.prototype.PlainHarvest = function PlainHarvest(Creep, Source, Targets) {
-  //  if Creep is Full and Harvesting > Creep.Unload(Creep, Targets.closest)
-  //  if Creep is Empty and not Harvesting > Creep.Harvest(Creep, Source)
+Creep.prototype.Construct = function Construct(opts) {
+  const { target } = opts;
+  const buildResult = this.build(target);
+  if(buildResult == ERR_NOT_IN_RANGE) {
+    this.MoveNear({ target }, '#EA0');
+  }
+  return buildResult;
+};
 
-  // if(this.carry.energy === 0) {
+Creep.prototype.Pickup = function Pickup(opts) {
+  const { target } = opts;
+  const pickupResult = this.pickup(target);
+  if(pickupResult === ERR_NOT_IN_RANGE) {
+    this.MoveNear({ target }, '#BB0');
+  }
+  return pickupResult;
+};
 
-  // } else if(this.carry.energy >= )
+Creep.prototype.DragTargetTo = function DragTargetTo(opts) {
+  const { target, destination } = opts;
+
+  if(!target.pos.isNearTo(destination)) {
+    let moveResult;
+    let pullResult = this.pull(target);
+
+    if(pullResult == ERR_NOT_IN_RANGE) {
+      moveResult = this.MoveNear({ target });
+    } else if (pullResult == 0) {
+      target.move(this);
+      if(!this.pos.isNearTo(destination)) {
+        // move towards destination
+        moveResult = this.MoveNear({ target: destination });
+      } else {
+        // Swap places with target
+        moveResult = this.move(this.pos.getDirectionTo(target));
+      }
+    }
+
+    return pullResult || moveResult;
+
+  } // target is near destination
+  return 'FINISH';
 };

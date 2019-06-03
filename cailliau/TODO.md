@@ -33,20 +33,20 @@
   X Harvesting enough for a StaticWorker
     X req: Tasks, PlainHarvest, Unload
 
-  - Spawning a StaticWorker
-    - req: Tasks StaticWorker
+  X Spawning a StaticWorker
+    X req: Tasks StaticWorker
 
-  - Drag StaticWorker with Worker Task
-  - Get second creep into StaticHarvesting position
+  X Drag StaticWorker with Drag Task
+  X Get second creep into StaticHarvesting position
 
 ## Third steps
 
 ### Prototypes for tasks
 
-  - global.Roles.StaticHarvest
+  X global.Roles.miner
 
   - Creep.Build(Creep, Source, ConstructionSite)
 
-  - Creep.Drag(Creep, TargetCreep, TargetPos)
+  X Creep.Drag(Creep, TargetCreep, TargetPos)
 
   - Creep.StaticHarvest(Creep, Source, DropTarget)

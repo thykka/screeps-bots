@@ -1,9 +1,32 @@
 const { generateId } = require('utils');
 const Roles = require('roles');
 
-StructureSpawn.prototype.newWorker = function newWorker() {
+StructureSpawn.prototype.newWorker = function newWorker(task = false) {
   const workerRole = Roles.worker;
-  this.newCreep(workerRole);
+  if(task) {
+    return this.newCreep(workerRole, task);
+  }
+  return this.newCreep(workerRole);
+};
+
+StructureSpawn.prototype.renewCloseby = function renewCloseby() {
+  const closeByCreeps = this.pos.findInRange(FIND_MY_CREEPS, 1, {
+    filter: c => c.ticksToLive < 1500 - Math.floor(600 / c.body.length)
+  });
+  let target = false;
+  if(closeByCreeps.length === 1) {
+    target = closeByCreeps[0];
+  } else if(closeByCreeps.length > 1) {
+    target = closeByCreeps.sort(
+      (a, b) => a.ticksToLive - b.ticksToLive
+    )[0];
+  }
+  if(target) {
+    const renewResult = this.renewCreep(target);
+    if(renewResult === ERR_BUSY) {
+
+    } else if(renewResult) console.log('renew fail: ' + renewResult);
+  }
 };
 
 StructureSpawn.prototype.newCreep = function newCreep(role, task) {
@@ -13,12 +36,15 @@ StructureSpawn.prototype.newCreep = function newCreep(role, task) {
   }
   const memory = {
     spawn: this.id,
-    room: this.room.name,
-    task: task.type || false,
-    target: false,
+    room: this.room.name
   };
+  if(task) {
+    // presence of _task means it should be initialized with {Task}.begin(creep)
+    memory._task = task.type;
+  }
+  const newName = `${ name[0] }_${ generateId(3) }`;
   const spawnResult = this.spawnCreep(
-    body, `${ name[0] }_${ generateId(3) }`, { memory }
+    body, newName, { memory: Object.assign({}, memory, role.memory) }
   );
   if(spawnResult != 0) {
     console.log(this, {
@@ -31,6 +57,7 @@ StructureSpawn.prototype.newCreep = function newCreep(role, task) {
     }[spawnResult]);
   } else {
     console.log('Spawning ' + name + ' with ', body);
+    return Game.creeps[newName];
   }
 };
 

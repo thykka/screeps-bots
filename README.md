@@ -10,4 +10,10 @@ This repo contains a collection of bots I built while playing [Screeps](https://
 
 * ## Babbage
 
+  Babbage, initially a testbed for task-based control system, has less game features than it's predecessor, but it's a lot more efficient energy-wise. This is thanks to it's automatic creep renewal module, which makes creeps return to the spawn before their lifetime is up. The spawn in turn scans it's adjacent squares for creeps and renews them.
+
+  A creep has 1500 ticks to live. The spawn can renew floor(600/body_size) ticks at the cost of ceil(creep_cost/2.5/body_size) energy... err.. which basically means this doesn't save energy at all, it just wastes CPU cycles :)
+
+* ## Cailliau
+
   T.B.A.
