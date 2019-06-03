@@ -32,7 +32,8 @@ Brain.prototype.loop = function brainLoop() {
   const spawn = this._spawns[0];
   if(
     this._miners.length > 0 &&
-    this._miners.find(miner => miner.memory.mode === 'Await')
+    this._miners.find(miner => miner.memory.mode === 'Await') &&
+    !this._creeps.find(c => c.memory.task === 'Drag')
   ) {
     const worker = this._creeps.find(c => c.memory.task === 'BasicHarvest' || c.memory.task === 'PickupEnergy');
     if(worker) {
@@ -41,9 +42,9 @@ Brain.prototype.loop = function brainLoop() {
     }
   }
 
-  if(this._creeps.length >= 2) {
-    spawn.renewCloseby();
-  }
+  // if(this._creeps.length >= 2) {
+  //   spawn.renewCloseby();
+  // }
 
   this._creeps.forEach(creep => {
     if(creep.memory._task) {
@@ -80,10 +81,12 @@ Brain.prototype.spawnOpportunity = function spawnOpportunity() {
 
     if(RCL <= 1) {
       const starters = this._creeps.filter(c => c.memory.task === 'BasicHarvest');
-      if(starters.length === 0) {
-        spawnResult = spawn.newCreep(Roles.starter, Tasks.BasicHarvest);
-      } else if(this._miners.length === 0) {
+      if(this._creeps.length === 0) {
+        spawnResult = spawn.newCreep(Roles.worker, Tasks.BasicHarvest);
+      } else if(this._creeps.length === 1) {
         spawnResult = spawn.newCreep(Roles.miner, Tasks.StaticHarvest);
+      } else if(this._creeps.length < 3) {
+        spawnResult = spawn.newCreep(Roles.worker, Tasks.PickupEnergy);
       }
     } else if (RCL > 1) {
       if(this._miners.length === 0) {

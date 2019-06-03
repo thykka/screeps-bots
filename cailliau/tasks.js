@@ -48,7 +48,7 @@ class Task {
    * @returns {function|false} - The task finish check action
    */
   end(creep) {
-    //delete creep.memory.task;
+    delete creep.memory.task;
     delete creep.memory.mode;
     delete creep.memory.target;
     delete creep.memory.destination;
@@ -121,7 +121,7 @@ class UnloadTask extends Task {
   findConstructionTarget(creep) {
     const targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
     if(targets.length > 0) {
-      return targets.sort((a, b) => a.progress - b.progress)[0];
+      return targets.sort((a, b) => b.progress - a.progress)[0];
     }
     return false;
   }

@@ -69,7 +69,7 @@ Creep.prototype.MoveNear = function MoveNear(opts) {
     visualizePathStyle: {
       stroke: color || '#000',
       opacity: 1,
-      lineStyle: 'solid',
+      lineStyle: 'dotted',
       strokeWidth: 0.06125,
     }
   });
@@ -80,7 +80,7 @@ Creep.prototype.Harvest = function Harvest(opts) {
   const { target } = opts;
   const harvestResult = this.harvest(target);
   if(harvestResult == ERR_NOT_IN_RANGE) {
-    this.MoveNear({ target }, '#FF0');
+    this.MoveNear({ target, color: '#FF0' });
   }
   return harvestResult;
 };
@@ -89,7 +89,7 @@ Creep.prototype.Unload = function Unload(opts) {
   const { target } = opts;
   const transferResult = this.transfer(target, RESOURCE_ENERGY);
   if(transferResult == ERR_NOT_IN_RANGE) {
-    this.MoveNear({ target }, '#888');
+    this.MoveNear({ target, color: '#888' });
   }
   return transferResult;
 };
@@ -98,7 +98,7 @@ Creep.prototype.Construct = function Construct(opts) {
   const { target } = opts;
   const buildResult = this.build(target);
   if(buildResult == ERR_NOT_IN_RANGE) {
-    this.MoveNear({ target }, '#EA0');
+    this.MoveNear({ target, color: '#EA0' });
   }
   return buildResult;
 };
@@ -107,7 +107,7 @@ Creep.prototype.Pickup = function Pickup(opts) {
   const { target } = opts;
   const pickupResult = this.pickup(target);
   if(pickupResult === ERR_NOT_IN_RANGE) {
-    this.MoveNear({ target }, '#BB0');
+    this.MoveNear({ target, color: '#BB0' });
   }
   return pickupResult;
 };
@@ -120,12 +120,12 @@ Creep.prototype.DragTargetTo = function DragTargetTo(opts) {
     let pullResult = this.pull(target);
 
     if(pullResult == ERR_NOT_IN_RANGE) {
-      moveResult = this.MoveNear({ target });
+      moveResult = this.MoveNear({ target, color: '#C04' });
     } else if (pullResult == 0) {
       target.move(this);
       if(!this.pos.isNearTo(destination)) {
         // move towards destination
-        moveResult = this.MoveNear({ target: destination });
+        moveResult = this.MoveNear({ target: destination, color: '#FFF' });
       } else {
         // Swap places with target
         moveResult = this.move(this.pos.getDirectionTo(target));
