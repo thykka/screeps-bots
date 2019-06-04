@@ -131,10 +131,11 @@ class UnloadTask extends Task {
     const targets = creep.room.find(FIND_MY_STRUCTURES, {
       filter: s => (
         s.structureType === STRUCTURE_CONTROLLER ||
-        s.structureType === STRUCTURE_EXTENSION
+        (s.structureType === STRUCTURE_EXTENSION && s.energy < s.energyCapacity)
       )
     });
-    if(targets.length > 0) target = targets.sort((a, b) => a.energy - b.energy)[0];
+    // Extensions first, then controller
+    if(targets.length > 0) target = targets.sort((a, b) => a.energy && b.energy ? a.energy - b.energy : -1)[0];
     return target;
   }
 }
@@ -168,19 +169,21 @@ class BasicHarvestTask extends Task {
   finish(creep, result) {
     const mode = creep.memory.mode;
     const creepFull = creep.carry.energy / creep.carryCapacity;
+    let target = false;
     if(
       mode !== 'Unload' &&
       creepFull >= 1
     ) {
       creep.memory.mode = 'Unload';
-      creep.memory.target = this.findUnloadTarget(creep).id;
+      target = this.findUnloadTarget(creep);
     } else if(
       mode !== 'Harvest' &&
       creep.carry.energy == 0
     ) {
       creep.memory.mode = 'Harvest';
-      creep.memory.target = this.findHarvestTarget(creep).id;
+      target = this.findHarvestTarget(creep);
     }
+    if(target) creep.memory.target = target.id;
   }
 
   findHarvestTarget(creep) {
@@ -321,9 +324,11 @@ class PickupEnergyTask extends Task {
     });
     if(results.length > 0) {
       result = results[0];
-    } else { console.log('No pickup targets!'); }
-    creep.memory.target = result.id;
-    return results[0];
+    } else {
+      // No dropped resources
+    }
+    creep.memory.target = result ? result.id : false;
+    return result;
   }
 
   findUnloadTarget(creep) {
@@ -347,22 +352,23 @@ class PickupEnergyTask extends Task {
 
   finish(creep, result) {
     const mode = creep.memory.mode;
+    let newTarget = false;
     if(mode === 'Pickup') {
       const creepFull = creep.carry.energy / creep.carryCapacity;
       if(creepFull >= 1) {
         creep.memory.mode = 'Unload';
-        creep.memory.target = this.findUnloadTarget(creep).id;
+        newTarget = this.findUnloadTarget(creep);
       }
     } else if (mode === 'Unload') {
       if(result === ERR_FULL) {
-        const target = this.findUnloadTarget(creep);
-        if(target) creep.memory.target = target ? target.id : false;
+        newTarget = this.findUnloadTarget(creep);
       }
       if(creep.carry.energy == 0) {
         creep.memory.mode = 'Pickup';
-        creep.memory.target = this.findPickupTarget(creep).id;
+        newTarget = this.findPickupTarget(creep);
       }
     }
+    if(newTarget) creep.memory.target = newTarget ? newTarget.id : false;
   }
 }
 Tasks.PickupEnergy = new PickupEnergyTask();
