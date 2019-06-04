@@ -16,4 +16,4 @@ This repo contains a collection of bots I built while playing [Screeps](https://
 
 * ## Cailliau
 
-  ![Sneak peek of task-based autonomic expansion to RCL2](https://raw.githubusercontent.com/thykka/screeps-bots/master/examples/screeps-bot-cailliau.mp4)
+  [![Sneak peek of task-based autonomic expansion to RCL2](http://img.youtube.com/vi/UUhpoqXZssw/0.jpg)](http://www.youtube.com/watch?v=UUhpoqXZssw)
