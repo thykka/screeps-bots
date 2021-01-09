@@ -14,7 +14,7 @@
     "screeps"
   ],
   "author": "thykka",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/thykka/screeps-bots/issues"
   },
